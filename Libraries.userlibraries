@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Cp1257" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="EclipseLink" systemlibrary="false">
+        <archive path="D:/Project/eclipselink/jlib/eclipselink.jar" source="C:/Users/Rolandas/.m2/repository/org/eclipse/persistence/eclipselink/2.6.4-RC1/eclipselink-2.6.4-RC1-sources.jar"/>
+    </library>
+    <library name="Hibernate" systemlibrary="false">
+        <archive path="D:/Project/hibernate-release-5.2.9.Final.zip"/>
+    </library>
+    <library name="JavaPersistance" systemlibrary="false">
+        <archive path="D:/Project/eclipselink/jlib/jpa/javax.persistence_2.1.1.v201509150925.jar" source="C:/Users/Rolandas/.m2/repository/org/eclipse/persistence/javax.persistence/2.1.1/javax.persistence-2.1.1-sources.jar"/>
+    </library>
+    <library name="MySql" systemlibrary="false">
+        <archive path="D:/Project/mysql-connector-java-5.1.12.jar"/>
+    </library>
+</eclipse-userlibraries>
