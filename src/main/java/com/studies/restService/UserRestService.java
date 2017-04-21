@@ -39,19 +39,23 @@ public class UserRestService {
     public String getLogin(Users user) throws UnsupportedEncodingException {
     	System.out.println(user);
     	Integer state = null;
-    	if(user.getNickname() != null && user.getPassword() != null) {
+    	if(user.getUsername() != null && user.getPassword() != null) {
     	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
-    	Users u = UserService.getInstance().hasUser(user.getNickname());
+    	System.out.println("PASSWORD: " + hashedPassword);
+    	Users u = UserService.getInstance().hasUser(user.getUsername());
     	if(u != null ) {
-    		if(u.getNickname().equals(user.getNickname()) && u.getPassword().equals(hashedPassword)) {
+    		if(u.getUsername().equals(user.getUsername()) && u.getPassword().equals(hashedPassword)) {
     			state = 2;
-    		} else if (u.getNickname().equals(user.getNickname()) && !u.getPassword().equals(hashedPassword)) {
+    		} else if (u.getUsername().equals(user.getUsername()) && !u.getPassword().equals(hashedPassword)) {
     			state =  1;
     			return state.toString();
     		} else {
     			state = 0;
     		}
     	} 
+    	else{
+    		state = 0;
+    	}
     	
     	if(state ==  2) {
     		String token = UserService.getInstance().updateDate(u);

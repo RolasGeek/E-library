@@ -52,7 +52,7 @@ public class UserLogic {
 		    Algorithm algorithm = Algorithm.HMAC256("secret");
 		    token = JWT.create()
 		    	.withExpiresAt(exp)
-		        .withIssuer(u.getNickname())
+		        .withIssuer(u.getUsername())
 		        .withClaim("email", u.getEmail())
 		        .sign(algorithm);
 		} catch (UnsupportedEncodingException exception){
@@ -79,7 +79,7 @@ public class UserLogic {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
 		try {
 		entityManager.getTransaction().begin();
-		Query q = entityManager.createQuery("select u.expiratioDate from Users u where u.nickname=?1 and u.token=?2", Users.class);
+		Query q = entityManager.createQuery("select u.expiratioDate from Users u where u.username=?1 and u.token=?2", Users.class);
 		q.setParameter(1, jwt.getIssuedAt());
 		q.setParameter(2, jwt.getToken());
 		Date a = (Date) q.getSingleResult();

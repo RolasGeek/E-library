@@ -1,4 +1,4 @@
-package com.studies.entity;
+package model;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -10,8 +10,9 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name="Users.findAll", query="SELECT u FROM Users u")
-public class Users implements Serializable {
+@Table(name="users")
+@NamedQuery(name="User.findAll", query="SELECT u FROM User u")
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -23,13 +24,13 @@ public class Users implements Serializable {
 	@Column(name="expiratio_date")
 	private Date expiratioDate;
 
-	private String username;
-
 	private String password;
 
 	private String token;
 
-	public Users() {
+	private String username;
+
+	public User() {
 	}
 
 	public int getId() {
@@ -56,14 +57,6 @@ public class Users implements Serializable {
 		this.expiratioDate = expiratioDate;
 	}
 
-	public String getUsername() {
-		return this.username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
 	public String getPassword() {
 		return this.password;
 	}
@@ -78,6 +71,14 @@ public class Users implements Serializable {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+
+	public String getUsername() {
+		return this.username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 }
