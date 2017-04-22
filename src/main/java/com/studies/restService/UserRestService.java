@@ -37,7 +37,7 @@ public class UserRestService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
     public String getLogin(Users user) throws UnsupportedEncodingException {
-    	System.out.println(user);
+    	System.out.println(user.getUsername());
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
     	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
@@ -63,6 +63,9 @@ public class UserRestService {
     		return token; 
     	}
     
+    	}
+    	else{
+    		state = 0;
     	}
 		return  state.toString();
     }

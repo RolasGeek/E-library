@@ -4,7 +4,7 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'login
 	$rootScope.logedIn = false;
 	$rootScope.token = '';
 	$scope.login = function() {
-		var loginData =  {nickname: $scope.username, password: $scope.password}
+		var loginData =  {username: $scope.username, password: $scope.password}
 			loginService.login(loginData)
 				.success(function(data) {
 				if(data == '1' ) {
