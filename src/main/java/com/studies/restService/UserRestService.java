@@ -30,6 +30,17 @@ public class UserRestService {
         return UserService.getInstance().getDefaultUser();
     }
    
+    @POST
+    @Secured
+    @Path("/createAccount")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_XML)
+    public String getRegister(Users user){
+    	
+    	System.out.println("REGISTER");
+    	return "a";
+    }
+    
     
     @POST
     @Secured
@@ -69,4 +80,6 @@ public class UserRestService {
     	}
 		return  state.toString();
     }
+    
+    
 }

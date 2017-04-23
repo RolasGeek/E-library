@@ -20,6 +20,11 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     	url: '/home/profile',
     	templateUrl: 'pages/profile/profile.html',
     	controller: 'profileController'
+    })
+    .state('createAccount',{
+    	url: '/createAccount',
+    	templateUrl: 'pages/register/register.html',
+    	controller: 'registerController'
     });
     
     
@@ -54,6 +59,11 @@ app.run(function($rootScope, $cookieStore, $state, $location) {
 		  		if(!$cookieStore.get('userData')) {
 		  			evt.preventDefault();
 		  			$state.go('login');
+		  		}
+		  	} else if (toState.name == 'createAccount'){
+		  		if(!$cookieStore.get('userData')){
+		  			evt.preventDefault();
+		  			$state.go(fromState);
 		  		}
 		  	}
 		  	
