@@ -20,18 +20,21 @@ public class UserService {
 	     }
 	     return singleton;
 	  }
-
-    public Users getDefaultUser() {
+    
+    public boolean createUser(Users user){
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	try{
+    		entityManager.getTransaction().begin();
+    		//Query q = entityManager.createQuery("INSERT INTO Users(username, email, password) VALUES (?1, ?2, ?3)", Users.class);
+    		entityManager.persist(user);
+    		entityManager.getTransaction().commit();
+    		entityManager.close();
+    	}
+    	catch (Exception ex){
+    		return false;
+    	}
     	
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
-		entityManager.getTransaction().begin();
-		List<Users> result = entityManager.createQuery( "select u from Users u", Users.class ).getResultList();
-		for ( Users event : result ) {
-		    System.out.println( "Event (" + event.getUsername() + ") : " + event.getId() );
-		}
-		entityManager.getTransaction().commit();
-		entityManager.close();
-        return result.get(0);
+    	return true;
     }
     
     public Users hasUser(String username) {
@@ -51,8 +54,49 @@ public class UserService {
     	} catch (Exception ex) {
     	}
     		return null;
-
     }
+    
+    public boolean usernameExists(String username){
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	try{
+    		entityManager.getTransaction().begin();
+    		//username = "'" + username + "'";
+        	Query q = entityManager.createQuery("select u from Users u where u.username=?1", Users.class);
+        	q.setParameter(1, username);
+        	Users user = (Users) q.getSingleResult();
+        	if (user != null){
+        		return true;
+        	}
+        	else{
+        		return false;
+        	}
+    	}
+    	catch (Exception ex) {
+    		return false;
+    	}
+    }
+    
+    public boolean emailExists(String email){
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	try{
+    		entityManager.getTransaction().begin();
+    		//email = "'" + email + "'";
+        	Query q = entityManager.createQuery("select u from Users u where u.email=?1", Users.class);
+        	q.setParameter(1, email);
+        	Users user = (Users) q.getSingleResult();
+        	if (user != null){
+        		return true;
+        	}
+        	else{
+        		return false;
+        	}
+    	}
+    	catch (Exception ex) {
+    		return false;
+    	}
+    }
+    
+    
     public String updateDate(Users u) {
 		
 		Date dt = new Date();
@@ -62,7 +106,6 @@ public class UserService {
 		u.setExpiratioDate(c.getTime());
 		String token = UserLogic.getInstance().createToken(u,c.getTime());
 		u.setToken(token);
-		u.setEmail("testUpdate");
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
 		
 			entityManager.getTransaction().begin();

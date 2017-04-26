@@ -23,22 +23,30 @@ import com.studies.service.UserService;
 @Path("users")
 public class UserRestService {
 
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Users getDefaultUserInJSON() {
-        
-        return UserService.getInstance().getDefaultUser();
-    }
    
     @POST
-    @Secured
-    @Path("/createAccount")
+    @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
-    public String getRegister(Users user){
-    	
+    public String getRegister(Users user) throws UnsupportedEncodingException{
     	System.out.println("REGISTER");
-    	return "a";
+    	if(user.getUsername() != null && user.getPassword() != null && user.getEmail() != null){
+    		if (UserService.getInstance().usernameExists(user.getUsername())){
+    			return "userExists";
+    		}
+    		else if (UserService.getInstance().emailExists(user.getEmail())){
+    			return "emailExists";
+    		}
+			String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
+    		user.setPassword(hashedPassword);
+    		if (UserService.getInstance().createUser(user)){
+    			return "created";
+    		}
+    		else{
+    			return "failed";
+    		}
+    	}
+    	return "unexpected";
     }
     
     
@@ -51,18 +59,17 @@ public class UserRestService {
     	System.out.println(user.getUsername());
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
-    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
-    	System.out.println("PASSWORD: " + hashedPassword);
-    	Users u = UserService.getInstance().hasUser(user.getUsername());
-    	if(u != null ) {
-    		if(u.getUsername().equals(user.getUsername()) && u.getPassword().equals(hashedPassword)) {
-    			state = 2;
-    		} else if (u.getUsername().equals(user.getUsername()) && !u.getPassword().equals(hashedPassword)) {
-    			state =  1;
-    			return state.toString();
-    		} else {
-    			state = 0;
-    		}
+	    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
+	    	Users u = UserService.getInstance().hasUser(user.getUsername());
+	    	if(u != null ) {
+	    		if(u.getUsername().toLowerCase().equals(user.getUsername().toLowerCase()) && u.getPassword().equals(hashedPassword)) {
+	    			state = 2;
+	    		} else if (u.getUsername().toLowerCase().equals(user.getUsername().toLowerCase()) && !u.getPassword().equals(hashedPassword)) {
+	    			state =  1;
+	    			return state.toString();
+	    		} else {
+	    			state = 0;
+	    		}
     	} 
     	else{
     		state = 0;

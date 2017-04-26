@@ -27,7 +27,7 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'login
 		
 	};
 	$scope.createAccount = function(){
-		$location.path('/createAccount');
+		$location.path('/register');
 		console.log("go to createAccount");
 	};
 

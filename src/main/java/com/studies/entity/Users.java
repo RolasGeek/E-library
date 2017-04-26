@@ -14,8 +14,6 @@ import java.util.Date;
 public class Users implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	private int id;
 
 	private String email;
 
@@ -23,6 +21,7 @@ public class Users implements Serializable {
 	@Column(name="expiratio_date")
 	private Date expiratioDate;
 
+	@Id
 	private String username;
 
 	private String password;
@@ -32,13 +31,7 @@ public class Users implements Serializable {
 	public Users() {
 	}
 
-	public int getId() {
-		return this.id;
-	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getEmail() {
 		return this.email;

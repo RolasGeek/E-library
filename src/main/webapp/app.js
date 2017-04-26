@@ -9,22 +9,26 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     .state('login', {
             url: '/login',
             templateUrl: 'pages/login/login.html',
-            controller: 'loginController'
+            controller: 'loginController',
+            cache: false
         })
     .state('home', {
     	url: '/home',
     	templateUrl: 'pages/home/home.html',
     	controller: 'homeController',
+    	cache: false
     })
     .state('profile', {
     	url: '/home/profile',
     	templateUrl: 'pages/profile/profile.html',
-    	controller: 'profileController'
+    	controller: 'profileController',
+    	cache: false
     })
-    .state('createAccount',{
-    	url: '/createAccount',
+    .state('register',{
+    	url: '/register',
     	templateUrl: 'pages/register/register.html',
-    	controller: 'registerController'
+    	controller: 'registerController',
+    	cache: false
     });
     
     
@@ -60,8 +64,8 @@ app.run(function($rootScope, $cookieStore, $state, $location) {
 		  			evt.preventDefault();
 		  			$state.go('login');
 		  		}
-		  	} else if (toState.name == 'createAccount'){
-		  		if(!$cookieStore.get('userData')){
+		  	} else if (toState.name == 'register'){
+		  		if($cookieStore.get('userData')){
 		  			evt.preventDefault();
 		  			$state.go(fromState);
 		  		}
