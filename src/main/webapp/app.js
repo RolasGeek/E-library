@@ -29,6 +29,12 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     	templateUrl: 'pages/register/register.html',
     	controller: 'registerController',
     	cache: false
+    })
+    .state('editProfile',{
+    	url: '/editProfile',
+    	templateUrl: 'pages/editProfile/editProfile.html',
+    	controller: 'editProfileController',
+    	cache: false
     });
     
     
@@ -68,6 +74,11 @@ app.run(function($rootScope, $cookieStore, $state, $location) {
 		  		if($cookieStore.get('userData')){
 		  			evt.preventDefault();
 		  			$state.go(fromState);
+		  		}
+		  	} else if (toState.name == 'editProfile'){
+		  		if(!$cookieStore.get('userData')){
+		  			evt.preventDefault();
+		  			$state.go('login');
 		  		}
 		  	}
 		  	

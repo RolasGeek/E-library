@@ -1,0 +1,28 @@
+<p>Hello there!</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="wrap">
+                <p class="form-title">
+                    Edit</p>
+                <form class="login" name="changeEmailForm">
+                <input type="email" placeholder="Email" value="{{email}}" ng-model="email" required/>
+                <input type="submit" value="Change Email" ng-click="changeEmailForm.$valid && changeEmail()" class="btn btn-success btn-sm" />
+                </form>
+                <p class="form-title" style="color: red;">
+                {{emailError}}</p>
+                
+                
+                <form class="login" name="editPasswordForm">
+                <input type="password" placeholder="Current Password" ng-model="currentPassword" required/>
+                <input type="password" placeholder="Password" ng-model="password" required/>
+                <input type="password" placeholder="Repeat password" ng-model="passwordRepeat" ng-change="checkPassword()" required/>
+                <p style="color: red;">{{noMatch}}</p>
+                <input type="submit" value="Change Password" ng-click="editPasswordForm.$valid && changePassword()" class="btn btn-success btn-sm" />
+                </form>
+                <p class="form-title" style="color: red;">
+                {{passwordError}}</p>
+            </div>
+        </div>
+    </div>
+</div>
