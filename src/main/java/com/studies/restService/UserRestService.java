@@ -10,12 +10,13 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.studies.UserLogic.UserLogic;
-import com.studies.annotationFilters.Secured;
 import com.studies.entity.Users;
 import com.studies.service.UserService;
 
@@ -51,12 +52,12 @@ public class UserRestService {
     
     
     @POST
-    @Secured
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
-    public String getLogin(Users user) throws UnsupportedEncodingException {
-    	System.out.println(user.getUsername());
+    public String getLogin(Users user, @Context HttpHeaders headers) throws UnsupportedEncodingException {
+    	String st = headers.getRequestHeaders().getFirst("Authorization");
+    	System.out.println(st);
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
 	    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");

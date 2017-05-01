@@ -2,8 +2,18 @@
 
 var app = angular.module("myApp", ['ui.router', 'ngResource', 'ngCookies']);
 
-app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
-    
+app.factory('httpRequestInterceptor', function () {
+	  return {
+	    request: function (config) {
+
+	      config.headers['Authorization'] = 'Basic d2VudHdvcnRobWFuOkNoYW5nZV9tZQ==';
+
+	      return config;
+	    }
+	  };
+	});
+
+app.config(['$stateProvider','$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
 	$urlRouterProvider.otherwise('/home');
     $stateProvider
     .state('login', {
@@ -40,7 +50,8 @@ app.config(['$stateProvider','$urlRouterProvider', function($stateProvider, $url
     
 }]);
 
-app.run(function($rootScope, $cookieStore, $state, $location) {
+app.run(function($rootScope, $cookieStore, $state, $location, $http) {
+	$http.defaults.headers.common.Authorization = 'Basic YmVlcDpib29w';
 	if(!$cookieStore.get('userData')) {
 		$location.path('/login');
 	} else {
