@@ -8,9 +8,9 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.studies.UserLogic.UserLogic;
 import com.studies.entity.Users;
 import com.studies.entityManager.EntityManagerClass;
+import com.studies.logic.UserLogic;
 public class UserService {
 	
 	 public static UserService singleton = null;

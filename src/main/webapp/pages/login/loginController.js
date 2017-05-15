@@ -1,11 +1,11 @@
 var app = angular.module("myApp");
 
-app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'loginService', '$location', function($scope, $rootScope,$cookieStore, loginService, $location) {
+app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'LoginService', '$location', function($scope, $rootScope,$cookieStore, LoginService, $location) {
 	$rootScope.logedIn = false;
 	$rootScope.token = '';
 	$scope.login = function() {
 		var loginData =  {username: $scope.username, password: $scope.password}
-			loginService.login(loginData)
+			LoginService.login(loginData)
 				.success(function(data) {
 				if(data == '1' ) {
 					$scope.error = "Neteisingas slaptažodis";
@@ -30,11 +30,6 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'login
 		$location.path('/register');
 		console.log("go to createAccount");
 	};
-
-	
-	
-	
-	
 	
 	//Functions
 	function setCredentials(token) {
@@ -45,16 +40,9 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'login
                 }
             };
 	
-	function sendData(dataObj) {
-		loginService.login(dataObj)
-	.success(function(data) {
-   $rootScope.token = data;
-})
-
-}
 	
 	function getCustomers() { 
-		loginService.getUsers()
+		LoginService.getUsers()
 	.then(function(response) {
 		$scope.users = response.data;
 	}, function(error) {

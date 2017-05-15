@@ -1,6 +1,6 @@
 var app = angular.module("myApp");
 
-app.factory('loginService',['$http', function ($http) {
+app.factory('LoginService',['$http', function ($http) {
 	
 	var loginService = {};
 	var urlBase = 'rest/users/';
@@ -12,6 +12,10 @@ app.factory('loginService',['$http', function ($http) {
 	
 	loginService.getUsers =  function() {
 		return $http.get(urlBase);
+	}
+	
+	loginService.register = function(user) {
+		return $http.post(urlBase + "register", user)
 	}
 	return loginService;
 	

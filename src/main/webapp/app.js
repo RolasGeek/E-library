@@ -45,17 +45,24 @@ app.config(['$stateProvider','$urlRouterProvider', '$httpProvider', function($st
     	templateUrl: 'pages/editProfile/editProfile.html',
     	controller: 'editProfileController',
     	cache: false
+    })
+    .state('insertbook',{
+    	url: '/insertbook',
+    	templateUrl: 'pages/insertBook/insertBook.html',
+    	controller: 'insertBookController',
+    	cache: false
     });
+    
     
     
 }]);
 
 app.run(function($rootScope, $cookieStore, $state, $location, $http) {
-	$http.defaults.headers.common.Authorization = 'Basic YmVlcDpib29w';
 	if(!$cookieStore.get('userData')) {
 		$location.path('/login');
 	} else {
 		$rootScope.profile = $cookieStore.get('userData');
+		$http.defaults.headers.common.Authorization = $cookieStore.get('token');
   		$rootScope.logedIn = true;
 	}
 	
@@ -91,7 +98,13 @@ app.run(function($rootScope, $cookieStore, $state, $location, $http) {
 		  			evt.preventDefault();
 		  			$state.go('login');
 		  		}
+		  	} else if(toState.name =='insertbook') {
+		  		if(!$cookieStore.get('userData')){
+		  			evt.preventDefault();
+		  			$state.go('login');
+		  		}
 		  	}
+		  	
 		  	
 		  
 

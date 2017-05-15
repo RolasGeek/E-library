@@ -1,4 +1,4 @@
-package com.studies.UserLogic;
+package com.studies.logic;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -90,7 +90,5 @@ public class UserLogic {
 		return true;
 	}
 	
-	
-	
-	
 }
+	

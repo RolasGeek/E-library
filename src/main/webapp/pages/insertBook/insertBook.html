@@ -1,0 +1,27 @@
+<div>
+<div ng-class="alertclass" ng-if="render" role="alert">
+ {{alertmessage}}
+</div>
+<form class="form-style-7">
+<h1>Please fill data of new book you trying to insert</h1>
+<ul>
+<li>
+    <label for="name">Name</label>
+    <input type="text" name="name" ng-model="book.name" required maxlength="50">
+    <span>Enter valid book name here</span>
+</li>
+<li>
+    <label for="author">Author</label>
+    <input type="text" name="author" ng-model="book.author" required maxlength="100">
+    <span>Enter valid author</span>
+</li>
+<li>
+    <label for="description">Description</label>
+    <textarea name="description" rows=2 ng-model="book.description" required maxlength="100"></textarea>
+    <span>What is this book about?</span>
+</li>
+    <input type="submit" ng-click="insert(book)" value="Insert book" >
+</li>
+</ul>
+</form>
+</div>

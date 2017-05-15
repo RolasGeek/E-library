@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 public class EntityManagerClass {
 	private EntityManagerFactory entityManagerFactory = null;
 	private EntityManager entityManager =  null;
-	
+	//Not singelton just saving some space
 	public static EntityManagerClass singleton = null;
 	 public static EntityManagerClass getInstance() {
 	        singleton = new EntityManagerClass();

@@ -16,8 +16,8 @@ import javax.ws.rs.core.MediaType;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.studies.UserLogic.UserLogic;
 import com.studies.entity.Users;
+import com.studies.logic.UserLogic;
 import com.studies.service.UserService;
 
 
@@ -55,9 +55,7 @@ public class UserRestService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
-    public String getLogin(Users user, @Context HttpHeaders headers) throws UnsupportedEncodingException {
-    	String st = headers.getRequestHeaders().getFirst("Authorization");
-    	System.out.println(st);
+    public String getLogin(Users user) throws UnsupportedEncodingException {
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
 	    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
