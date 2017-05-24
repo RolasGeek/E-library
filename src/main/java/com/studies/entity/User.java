@@ -38,6 +38,10 @@ public class User implements Serializable {
 	@OneToMany(mappedBy="user")
 	private List<Rent> rents;
 
+	//bi-directional many-to-one association to Sold
+	@OneToMany(mappedBy="user")
+	private List<Sold> solds;
+
 	public User() {
 	}
 
@@ -117,6 +121,28 @@ public class User implements Serializable {
 		rent.setUser(null);
 
 		return rent;
+	}
+
+	public List<Sold> getSolds() {
+		return this.solds;
+	}
+
+	public void setSolds(List<Sold> solds) {
+		this.solds = solds;
+	}
+
+	public Sold addSold(Sold sold) {
+		getSolds().add(sold);
+		sold.setUser(this);
+
+		return sold;
+	}
+
+	public Sold removeSold(Sold sold) {
+		getSolds().remove(sold);
+		sold.setUser(null);
+
+		return sold;
 	}
 
 }

@@ -1,6 +1,12 @@
 package com.studies.service;
 
+import java.util.List;
+
+import javax.management.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+
+import org.apache.commons.codec.net.QCodec;
 
 import com.studies.entity.Book;
 import com.studies.entityManager.EntityManagerClass;
@@ -32,6 +38,21 @@ public class BooksService {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
 		Book book = entityManager.find(Book.class, bookId);
 		return book;
+	}
+	
+	public List<Book> getAll() {
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		try{
+			entityManager.getTransaction().begin();
+			TypedQuery<Book> q =  entityManager.createNamedQuery("Book.findAll", Book.class);
+			List<Book> result = q.getResultList();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return result;
+		} catch (Exception ex){
+			entityManager.close();
+			return null;
+		}
 	}
 
 }

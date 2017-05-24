@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
@@ -73,6 +74,11 @@ public class BooksRestService {
 	}
 	
 	
-	
+	@GET
+	@Path("getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Book> getAll() {
+		return BooksService.getInstance().getAll();
+	}
 	
 }

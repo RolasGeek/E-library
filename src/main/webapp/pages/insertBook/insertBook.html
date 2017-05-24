@@ -1,5 +1,7 @@
 <div>
-	<form class="form-style-7">
+	<div ng-class="alertclass" ng-if="render" role="alert">
+		{{alertmessage}}</div>
+	<form name="insertForm" class="form-style-7">
 		<h1>Please fill data of new book you trying to insert</h1>
 		<ul>
 			<li><label for="name">Name</label> <input type="text"
@@ -24,16 +26,9 @@
 				<div class="alert alert-danger" ng-if="error" role="alert">Please
 					select .pdf</div> <span>Please upload book pdf</span></li>
 	</form>
-	<div ng-class="alertclass" ng-if="render" role="alert">
-		{{alertmessage}}</div>
-	<input type="submit" id="button" ng-click="insert(book)"
+	<input type="submit" id="button" onClick="scroll(0,0)" ng-click="insertForm.$valid && insert(book)"
 		value="Insert book">
 
 	</ul>
 
 </div>
-<script>
-$("#button").on("click", function() {
-    $("body").scrollTop(0);
-});
-</script>

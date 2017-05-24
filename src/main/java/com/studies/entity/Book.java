@@ -25,8 +25,7 @@ public class Book implements Serializable {
 
 	private String name;
 
-	@Column(name="quantity_rented")
-	private int quantityRented;
+	private double price;
 
 	@Column(name="quantity_to_rent")
 	private int quantityToRent;
@@ -45,6 +44,10 @@ public class Book implements Serializable {
 	//bi-directional many-to-one association to Rent
 	@OneToMany(mappedBy="book")
 	private List<Rent> rents;
+
+	//bi-directional many-to-one association to Sold
+	@OneToMany(mappedBy="book")
+	private List<Sold> solds;
 
 	public Book() {
 	}
@@ -81,12 +84,12 @@ public class Book implements Serializable {
 		this.name = name;
 	}
 
-	public int getQuantityRented() {
-		return this.quantityRented;
+	public double getPrice() {
+		return this.price;
 	}
 
-	public void setQuantityRented(int quantityRented) {
-		this.quantityRented = quantityRented;
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public int getQuantityToRent() {
@@ -164,9 +167,30 @@ public class Book implements Serializable {
 
 		return rent;
 	}
-	
+
+	public List<Sold> getSolds() {
+		return this.solds;
+	}
+
+	public void setSolds(List<Sold> solds) {
+		this.solds = solds;
+	}
+
+	public Sold addSold(Sold sold) {
+		getSolds().add(sold);
+		sold.setBook(this);
+
+		return sold;
+	}
+
+	public Sold removeSold(Sold sold) {
+		getSolds().remove(sold);
+		sold.setBook(null);
+
+		return sold;
+	}
 	public String getFileName(String type) {
-		return this.author + " - " + this.name + type;
+		return author + " - " + name + type;
 	}
 
 }

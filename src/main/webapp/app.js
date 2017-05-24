@@ -1,6 +1,6 @@
 
 
-var app = angular.module("myApp", ['ui.router', 'ngResource', 'ngCookies']);
+var app = angular.module("myApp", ['ui.router','ui.bootstrap', 'ngResource', 'ngCookies']);
 
 app.factory('httpRequestInterceptor', function () {
 	  return {
