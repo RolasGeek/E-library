@@ -23,9 +23,15 @@ public class BooksService {
 			entityManager.close();
 			return true;
 		} catch (Exception ex) {
+			entityManager.close();
 			return false;
 		}
 	}
 	
+	public Book getBook(Integer bookId) {
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		Book book = entityManager.find(Book.class, bookId);
+		return book;
+	}
 
 }

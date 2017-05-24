@@ -18,7 +18,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.studies.entity.Users;
+import com.studies.entity.User;
 import com.studies.entityManager.EntityManagerClass;
 
 public class UserLogic {
@@ -46,7 +46,7 @@ public class UserLogic {
 		       }
 		    return generatedPassword;
 		}
-	public String createToken(Users u, Date exp) {
+	public String createToken(User u, Date exp) {
 		String token = null;
 		try {
 		    Algorithm algorithm = Algorithm.HMAC256("secret");
@@ -79,7 +79,7 @@ public class UserLogic {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
 		try {
 		entityManager.getTransaction().begin();
-		Query q = entityManager.createQuery("select u.expiratioDate from Users u where u.username=?1 and u.token=?2", Users.class);
+		Query q = entityManager.createQuery("select u.expiratioDate from Users u where u.username=?1 and u.token=?2", User.class);
 		q.setParameter(1, jwt.getIssuedAt());
 		q.setParameter(2, jwt.getToken());
 		Date a = (Date) q.getSingleResult();

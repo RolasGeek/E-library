@@ -4,10 +4,9 @@ app.controller('registerController', ['$scope', '$rootScope', '$cookieStore', 'L
 	
 	$scope.notValid = true;
 	
-	$scope.register = function() {
-		var registerData =  {username: $scope.username, email: $scope.email, password: $scope.password}
+	$scope.register = function(user) {
 		
-		LoginService.register(registerData)
+		LoginService.register(user)
 			.success(function (data){
 				if (data == "userExists"){
 					$scope.error = "Username already exists";
@@ -29,7 +28,7 @@ app.controller('registerController', ['$scope', '$rootScope', '$cookieStore', 'L
 			})
 	};
 	$scope.checkPassword = function(){
-		if ($scope.password != $scope.passwordRepeat){
+		if ($scope.user.password != $scope.passwordRepeat){
 			$scope.noMatch = "Passwords doesn't match!";
 			$scope.notValid = true;
 		}

@@ -1,34 +1,39 @@
 <div>
-	<div ng-class="alertclass" ng-if="render" role="alert">
-		{{alertmessage}}</div>
 	<form class="form-style-7">
 		<h1>Please fill data of new book you trying to insert</h1>
 		<ul>
 			<li><label for="name">Name</label> <input type="text"
-				name="name" ng-model="book.data.name" required maxlength="50"> <span>Enter
-					valid book name here</span></li>
+				name="name" ng-model="book.data.name" required maxlength="50">
+				<span>Enter valid book name here</span></li>
 			<li><label for="author">Author</label> <input type="text"
 				name="author" ng-model="book.data.author" required maxlength="100">
 				<span>Enter valid author</span></li>
 			<li><label for="description">Description</label> <textarea
 					name="description" rows=2 ng-model="book.data.description" required
 					maxlength="100"></textarea> <span>What is this book about?</span></li>
-			<li><label for="file">Book cover</label>
-			<input type="file" name="file" fileinput="book.file" filepreview="filepreview" ng-model="book.file" required accept=".png,.jpg"/>
-			<br>
-				<img name="filepreview" ng-src="{{filepreview}}" ng-if="preview" class="img-responsive"
-					ng-show="filepreview" /><div class="alert alert-danger" ng-if="error" role="alert">Please select .png or .jpg image</div>
-					<span>Please upload book cower</span>
-					</li>
-			<li><label for="file">Book pdf</label>
-			<input type="file" name="pdf" ng-model="book.pdf" required accept=".pdf"/>
-			<br>
-				<div class="alert alert-danger" ng-if="error" role="alert">Please select .pdf</div>
-					<span>Please upload book pdf</span>
-					</li>
-			<input type="submit" ng-click="insert(book)"
-				value="Insert book">
-				
-		</ul>
+			<li><label for="file">Book cover</label> <input type="file"
+				name="file" fileinput="book.file" filepreview="filepreview"
+				ng-model="book.file" required accept=".png,.jpg" /> <br> <img
+				name="filepreview" ng-src="{{filepreview}}" ng-if="preview"
+				class="img-responsive" ng-show="filepreview" />
+			<div class="alert alert-danger" ng-if="error" role="alert">Please
+					select .png or .jpg image</div> <span>Please upload book cower</span></li>
+			<li><label for="file1">Book pdf</label> <input type="file"
+				name="file1" fileinput="book.file1" ng-model="book.file1" required
+				accept=".pdf" /> <br>
+				<div class="alert alert-danger" ng-if="error" role="alert">Please
+					select .pdf</div> <span>Please upload book pdf</span></li>
 	</form>
+	<div ng-class="alertclass" ng-if="render" role="alert">
+		{{alertmessage}}</div>
+	<input type="submit" id="button" ng-click="insert(book)"
+		value="Insert book">
+
+	</ul>
+
 </div>
+<script>
+$("#button").on("click", function() {
+    $("body").scrollTop(0);
+});
+</script>

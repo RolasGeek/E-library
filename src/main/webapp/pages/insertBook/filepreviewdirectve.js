@@ -12,7 +12,9 @@ app.directive("fileinput", [function() {
 	            var reader = new FileReader();
 	            reader.onload = function(loadEvent) {
 	              scope.$apply(function() {
+	            	  if(scope.fileinput.type != 'application/pdf') {
 	                scope.filepreview = loadEvent.target.result;
+	            	  }
 	              });
 	            }
 	            reader.readAsDataURL(scope.fileinput);   

@@ -5,12 +5,13 @@
                 <p class="form-title">
                     Register</p>
                 <form class="login" name="registerForm">
-                <input type="text" placeholder="Username" ng-model="username" required/>
-                <input type="email" placeholder="Email" ng-model="email" required/>
-                <input type="password" placeholder="Password" ng-model="password" required/>
+                <input type="text" placeholder="Username" ng-model="user.username" required/>
+                <input type="email" placeholder="Email" ng-model="user.email" required/>
+                 <input type="text" placeholder="Adress" ng-model="user.address" required/>
+                <input type="password" placeholder="Password" ng-model="user.password" required/>
                 <input type="password" placeholder="Repeat password" ng-model="passwordRepeat" ng-change="checkPassword()" required/>
                 <p style="color: red;">{{noMatch}}</p>
-                <input type="submit" value="Register" ng-disabled="notValid" ng-click="registerForm.$valid && register()" class="btn btn-success btn-sm" />
+                <input type="submit" value="Register" ng-disabled="notValid" ng-click="registerForm.$valid && register(user)" class="btn btn-success btn-sm" />
                 </form>
                 <p class="form-title" style="color: red;">
                 {{error}}</p>

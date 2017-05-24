@@ -13,6 +13,9 @@ app.factory('BookService',['$http', function ($http) {
 		});
 	}
 	
+	booksService.get = function(bookId) {
+		return $http.get(urlBase+ "get/" + bookId);
+	}
 	
 	return booksService;
 }]);

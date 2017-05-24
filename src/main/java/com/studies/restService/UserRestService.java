@@ -16,7 +16,7 @@ import javax.ws.rs.core.MediaType;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.studies.entity.Users;
+import com.studies.entity.User;
 import com.studies.logic.UserLogic;
 import com.studies.service.UserService;
 
@@ -29,7 +29,7 @@ public class UserRestService {
     @Path("/register")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
-    public String getRegister(Users user) throws UnsupportedEncodingException{
+    public String getRegister(User user) throws UnsupportedEncodingException{
     	System.out.println("REGISTER");
     	if(user.getUsername() != null && user.getPassword() != null && user.getEmail() != null){
     		if (UserService.getInstance().usernameExists(user.getUsername())){
@@ -55,11 +55,11 @@ public class UserRestService {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
-    public String getLogin(Users user) throws UnsupportedEncodingException {
+    public String getLogin(User user) throws UnsupportedEncodingException {
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
 	    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
-	    	Users u = UserService.getInstance().hasUser(user.getUsername());
+	    	User u = UserService.getInstance().hasUser(user.getUsername());
 	    	if(u != null ) {
 	    		if(u.getUsername().toLowerCase().equals(user.getUsername().toLowerCase()) && u.getPassword().equals(hashedPassword)) {
 	    			state = 2;

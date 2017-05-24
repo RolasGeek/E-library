@@ -8,7 +8,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
-import com.studies.entity.Users;
+import com.studies.entity.User;
 import com.studies.entityManager.EntityManagerClass;
 import com.studies.logic.UserLogic;
 public class UserService {
@@ -21,7 +21,7 @@ public class UserService {
 	     return singleton;
 	  }
     
-    public boolean createUser(Users user){
+    public boolean createUser(User user){
     	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
     	try{
     		entityManager.getTransaction().begin();
@@ -37,13 +37,13 @@ public class UserService {
     	return true;
     }
     
-    public Users hasUser(String username) {
+    public User hasUser(String username) {
     	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
     	try {
     	entityManager.getTransaction().begin();
-    	Query q = entityManager.createQuery("select u from Users u where u.username=?1", Users.class);
+    	Query q = entityManager.createQuery("select u from User u where u.username=?1", User.class);
     	q.setParameter(1, username);
-    	Users a = (Users) q.getSingleResult();
+    	User a = (User) q.getSingleResult();
     	entityManager.getTransaction().commit();
     	entityManager.close();
     	if(a != null) {
@@ -61,9 +61,9 @@ public class UserService {
     	try{
     		entityManager.getTransaction().begin();
     		//username = "'" + username + "'";
-        	Query q = entityManager.createQuery("select u from Users u where u.username=?1", Users.class);
+        	Query q = entityManager.createQuery("select u from Users u where u.username=?1", User.class);
         	q.setParameter(1, username);
-        	Users user = (Users) q.getSingleResult();
+        	User user = (User) q.getSingleResult();
         	if (user != null){
         		return true;
         	}
@@ -81,9 +81,9 @@ public class UserService {
     	try{
     		entityManager.getTransaction().begin();
     		//email = "'" + email + "'";
-        	Query q = entityManager.createQuery("select u from Users u where u.email=?1", Users.class);
+        	Query q = entityManager.createQuery("select u from Users u where u.email=?1", User.class);
         	q.setParameter(1, email);
-        	Users user = (Users) q.getSingleResult();
+        	User user = (User) q.getSingleResult();
         	if (user != null){
         		return true;
         	}
@@ -97,7 +97,7 @@ public class UserService {
     }
     
     
-    public String updateDate(Users u) {
+    public String updateDate(User u) {
 		
 		Date dt = new Date();
 		Calendar c = Calendar.getInstance(); 
