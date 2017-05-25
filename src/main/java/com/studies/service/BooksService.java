@@ -2,8 +2,8 @@ package com.studies.service;
 
 import java.util.List;
 
-import javax.management.Query;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import org.apache.commons.codec.net.QCodec;
@@ -52,6 +52,28 @@ public class BooksService {
 		} catch (Exception ex){
 			entityManager.close();
 			return null;
+		}
+	}
+	
+	public List<Book> getSearch(String search) {
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		if(search.equals("null")) {
+			return getAll();
+		} else {
+			search = "%"+search + "%";
+		}
+		try{
+			entityManager.getTransaction().begin();
+			Query q = entityManager.createQuery("select b from Book b where b.name like ?1 or b.author like ?1", Book.class);
+			q.setParameter(1, search);
+			List<Book> books =  q.getResultList();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return books;
+		} catch (Exception e) {
+			entityManager.close();
+			return null;
+			// TODO: handle exception
 		}
 	}
 

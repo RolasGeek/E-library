@@ -51,6 +51,13 @@ app.config(['$stateProvider','$urlRouterProvider', '$httpProvider', function($st
     	templateUrl: 'pages/insertBook/insertBook.html',
     	controller: 'insertBookController',
     	cache: false
+    })
+    .state('bookList',{
+    	url: '/list?searchQuery',
+    	params : {searchQuery : null},
+    	templateUrl: 'pages/booksList/booksList.html',
+    	controller: 'listController',
+    	cache: false
     });
     
     

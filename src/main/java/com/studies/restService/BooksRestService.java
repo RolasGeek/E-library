@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studies.entity.Book;
 import com.studies.logic.BooksLogic;
 import com.studies.service.BooksService;
+import com.studies.service.MailService;
 
 
 @Path("books")
@@ -80,5 +81,22 @@ public class BooksRestService {
 	public List<Book> getAll() {
 		return BooksService.getInstance().getAll();
 	}
+	
+	@GET
+	@Path("getSearch/{search}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Book> getSearch(@PathParam("search") String search) {
+		return BooksService.getInstance().getSearch(search);
+	}
+	
+	@GET
+	@Path("sendMail")
+	@Produces(MediaType.APPLICATION_XML)
+	public String sendMail() {
+		MailService ml = new MailService();
+		ml.sendMail("D:/Project/Uploaded/rolas - Rolas.pdf", "eivydas.senkus@gmail.com");
+		return "DOne";
+	}
+	
 	
 }
