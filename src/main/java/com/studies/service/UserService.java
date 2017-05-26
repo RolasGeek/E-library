@@ -22,7 +22,7 @@ public class UserService {
 	  }
     
     public boolean createUser(User user){
-    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try{
     		entityManager.getTransaction().begin();
     		//Query q = entityManager.createQuery("INSERT INTO Users(username, email, password) VALUES (?1, ?2, ?3)", Users.class);
@@ -38,7 +38,7 @@ public class UserService {
     }
     
     public User hasUser(String username) {
-    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try {
     	entityManager.getTransaction().begin();
     	Query q = entityManager.createQuery("select u from User u where u.username=?1", User.class);
@@ -57,7 +57,7 @@ public class UserService {
     }
     
     public boolean usernameExists(String username){
-    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try{
     		entityManager.getTransaction().begin();
     		//username = "'" + username + "'";
@@ -77,7 +77,7 @@ public class UserService {
     }
     
     public boolean emailExists(String email){
-    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try{
     		entityManager.getTransaction().begin();
     		//email = "'" + email + "'";
@@ -106,7 +106,7 @@ public class UserService {
 		u.setExpiratioDate(c.getTime());
 		String token = UserLogic.getInstance().createToken(u,c.getTime());
 		u.setToken(token);
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		
 			entityManager.getTransaction().begin();
 	    	entityManager.merge(u);

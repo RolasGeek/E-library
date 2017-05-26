@@ -21,7 +21,7 @@ public class BooksService {
 	}
 	
 	public boolean insertBook(Book book) {
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			entityManager.persist(book);
@@ -35,13 +35,13 @@ public class BooksService {
 	}
 	
 	public Book getBook(Integer bookId) {
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		Book book = entityManager.find(Book.class, bookId);
 		return book;
 	}
 	
 	public List<Book> getAll() {
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try{
 			entityManager.getTransaction().begin();
 			TypedQuery<Book> q =  entityManager.createNamedQuery("Book.findAll", Book.class);
@@ -56,7 +56,7 @@ public class BooksService {
 	}
 	
 	public List<Book> getSearch(String search) {
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		if(search.equals("null")) {
 			return getAll();
 		} else {

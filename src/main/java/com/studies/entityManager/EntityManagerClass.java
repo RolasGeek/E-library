@@ -9,20 +9,16 @@ import javax.persistence.Persistence;
 
 public class EntityManagerClass {
 	private EntityManagerFactory entityManagerFactory = null;
-	private EntityManager entityManager =  null;
 	//Not singelton just saving some space
-	public static EntityManagerClass singleton = null;
-	 public static EntityManagerClass getInstance() {
-	        singleton = new EntityManagerClass();
+	private static EntityManagerClass singleton = null;
+	public static EntityManagerClass getInstance() {
+		 if(singleton == null) {
+			singleton = new EntityManagerClass();
 	        singleton.setEntityManagerFactory(Persistence.createEntityManagerFactory( "E-library" ));
-	        singleton.setEntityManager(singleton.getEntityManagerFactory().createEntityManager());
+		 }
 	        return singleton;
 	  }
 	
-		
-	public EntityManager getEntityManager() {
-		return this.entityManager;
-	}
 
 
 	public EntityManagerFactory getEntityManagerFactory() {
@@ -32,11 +28,6 @@ public class EntityManagerClass {
 
 	public void setEntityManagerFactory(EntityManagerFactory entityManagerFactory) {
 		this.entityManagerFactory = entityManagerFactory;
-	}
-
-
-	public void setEntityManager(EntityManager entityManager) {
-		this.entityManager = entityManager;
 	}
 	
 	

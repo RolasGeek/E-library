@@ -76,7 +76,7 @@ public class UserLogic {
 	public boolean isExpired(String token) {
 		DecodedJWT jwt = decodeToken(token);
 		int size = token.length();
-		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManager();
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {
 		entityManager.getTransaction().begin();
 		Query q = entityManager.createQuery("select u.expiratioDate from Users u where u.username=?1 and u.token=?2", User.class);
