@@ -45,7 +45,11 @@ public class BooksLogic {
 	}
 	
 	public boolean saveFile(InputStream file, String fileName) {
-		String uploadedFileLocation = "D:/Project/Uploaded/" + fileName;
+		File f = new File("C:/Temp/Uploaded");
+		if (!f.exists()){
+			f.mkdir();
+		}
+		String uploadedFileLocation = "C:/Temp/Uploaded/" + fileName;
 	    // save it
 	    try {
 	        BooksLogic.getInstance().writeToFile(file, uploadedFileLocation);

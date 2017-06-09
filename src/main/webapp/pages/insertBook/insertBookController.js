@@ -6,7 +6,7 @@ app.controller("insertBookController", ['$scope', '$rootScope', '$cookieStore', 
 	      if(angular.equals(newfile, oldfile) ){
 	        return;
 	      }
-	      if(newfile.type != 'image/png') {
+	      if(newfile.type != 'image/png' && newfile.type != 'image/jpg') {
 	    	  $scope.preview = false;
 	    	  $scope.error = true;
 	    	  return;

@@ -36,7 +36,7 @@ public class BooksRestService {
 	@Context
 	private ServletContext context;
 	
-	private String baseDir = "D:/Project/Uploaded/";
+	private String baseDir = "C:/Temp/Uploaded/";
 	@POST
 	@Path("/insert")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
@@ -56,7 +56,7 @@ public class BooksRestService {
 	@Path("getpdf/{bookId}")
 	public Response getBook(@PathParam("bookId") Integer bookId) {
 		Book book = BooksService.getInstance().getBook(bookId);
-		File f = new File(baseDir+book.getFileName(".pdf")); 
+		File f = new File(baseDir+book.getFileName(".pdf"));
 		return Response.ok(f, MediaType.APPLICATION_OCTET_STREAM)
 			      .header("Content-Disposition", "attachment; filename=\"" + f.getName() + "\"" ) //optional
 			      .build();
@@ -94,7 +94,7 @@ public class BooksRestService {
 	@Produces(MediaType.APPLICATION_XML)
 	public String sendMail() {
 		MailService ml = new MailService();
-		ml.sendMail("D:/Project/Uploaded/rolas - Rolas.pdf", "eivydas.senkus@gmail.com");
+		ml.sendMail("C:/Temp/Uploaded/rolas - Rolas.pdf", "eivydas.senkus@gmail.com");
 		return "DOne";
 	}
 	
