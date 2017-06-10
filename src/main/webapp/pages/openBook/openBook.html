@@ -9,13 +9,14 @@
                 <h4 class="media-heading">Author: {{book.author}}</h4>
                 <h4 class="media-heading">Name: {{book.name}}</h4>
                 Description: {{book.description}}
+                <br>
+                <button class="btn btn-gradient-blue" ng-click="editBook()">Edit book</button>
             </div>
             <div class="media-body" ng-show="book.rentable && book.quantityToRent > 0">
-                <h4 class="media-heading">RENTABLE</h4>
+                <button class="btn btn-success btn-sm">Rent this book</button>
             </div>
-
             <div class="media-body" ng-show="book.sellable && book.quantityToSell > 0">
-                <h4 class="media-heading">SELLABLE</h4>
+                <button class="btn btn-success btn-sm">Buy this book</button>
             </div>
         </div>
     </div>

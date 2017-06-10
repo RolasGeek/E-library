@@ -46,10 +46,22 @@ public class BooksRestService {
 	public String insertBook(@FormDataParam("image") InputStream file,  @FormDataParam("image") FormDataContentDisposition fileDetail,@FormDataParam("file1") InputStream file1,  @FormDataParam("file1") FormDataContentDisposition fileDetail1, @FormDataParam("book") String json, @Context HttpHeaders headers) throws IOException {
 	String st = headers.getRequestHeaders().getFirst("Authorization");
 	Book book = BooksLogic.getInstance().makeBook(json);
-	//Save files
-	BooksLogic.getInstance().saveFile(file, book.getFileName(".png"));
-	BooksLogic.getInstance().saveFile(file1, book.getFileName(".pdf"));
-	BooksService.getInstance().insertBook(book);
+	if (book.getId() != 0){
+		//Update files
+		//TODO: update files
+		BooksService.getInstance().updateBook(book);
+		if (fileDetail.getFileName() != null){
+			BooksLogic.getInstance().saveFile(file, book.getFileName(".png"));
+		}
+		if (fileDetail1.getFileName() != null){
+			BooksLogic.getInstance().saveFile(file1, book.getFileName(".pdf"));
+		}
+	} else{
+		//Save files
+		BooksLogic.getInstance().saveFile(file, book.getFileName(".png"));
+		BooksLogic.getInstance().saveFile(file1, book.getFileName(".pdf"));
+		BooksService.getInstance().insertBook(book);
+	}
 	return "Fuck u";
 	}
 	

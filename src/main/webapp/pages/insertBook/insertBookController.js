@@ -23,7 +23,7 @@ app.controller("insertBookController", ['$scope', '$rootScope', '$cookieStore', 
 		var formdata = new FormData();
 		formdata.append('image', book.file);
 		formdata.append('file1', book.file1);
-		var loginData =  {author: book.data.author, description: book.data.description, name : book.data.name}
+		var loginData =  {author: book.data.author, description: book.data.description, name : book.data.name};
 		var json_test = JSON.stringify(loginData);
 		formdata.append('book', json_test);
 		console.log(formdata);

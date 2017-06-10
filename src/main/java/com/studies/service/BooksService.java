@@ -34,6 +34,25 @@ public class BooksService {
 		}
 	}
 
+	public boolean updateBook(Book book){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		try{
+			entityManager.getTransaction().begin();
+			entityManager.merge(book);
+			entityManager.getTransaction().commit();;
+			entityManager.close();
+			return true;
+		} catch (Exception ex){
+			entityManager.close();
+			return false;
+		}
+	}
+
+	public boolean exists(Integer bookId){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		return entityManager.find(Book.class, bookId) != null;
+	}
+
 	public Book getBook(Integer bookId) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		Book book = entityManager.find(Book.class, bookId);
