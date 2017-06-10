@@ -2,6 +2,7 @@ package com.studies.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.studies.entity.Book;
 
 public class Mapper {
     public static Mapper singleton;

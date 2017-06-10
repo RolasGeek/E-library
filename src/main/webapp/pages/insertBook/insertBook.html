@@ -13,21 +13,53 @@
 			<li><label for="description">Description</label> <textarea
 					name="description" rows=2 ng-model="book.data.description" required
 					maxlength="100"></textarea> <span>What is this book about?</span></li>
+			<li><label for="genre">Genres</label> <br> <a
+				ng-click="addLine()" class="glyphicon glyphicon-plus">Add</a>
+				<div id="genres" ng-repeat="genre in bookgenres">
+					<select ng-model="genre.genre"
+						ng-options="option for option in genres" style="width: 50%;"
+						required>
+						<option value="">Please select option</option>
+					</select>
+				</div> <span>Book genres</span></li>
 			<li><label for="file">Book cover</label> <input type="file"
 				name="file" fileinput="book.file" filepreview="filepreview"
 				ng-model="book.file" required accept=".png,.jpg" /> <br> <img
 				name="filepreview" ng-src="{{filepreview}}" ng-if="preview"
 				class="img-responsive" ng-show="filepreview" />
-			<div class="alert alert-danger" ng-if="error" role="alert">Please
+				<div class="alert alert-danger" ng-if="error" role="alert">Please
 					select .png or .jpg image</div> <span>Please upload book cower</span></li>
 			<li><label for="file1">Book pdf</label> <input type="file"
 				name="file1" fileinput="book.file1" ng-model="book.file1" required
 				accept=".pdf" /> <br>
 				<div class="alert alert-danger" ng-if="error" role="alert">Please
 					select .pdf</div> <span>Please upload book pdf</span></li>
+			<input type="checkbox" id="sellable" ng-model="book.data.sellable" />
+			<label for="sellable">Sellable</label>
+			<br>
+			<br>
+			<li><label for="quantityToSell">Quantity to sell</label> <input
+				type="number" id="quantityToSell" min="0" step="1"
+				ng-model="book.data.quantityToSell" required /> <span>How
+					many of books copies are ready to be sold</span></li>
+			<li><label for="price">Price</label> <input type="number"
+				id="price" min="0" step="0.5" ng-model="book.data.price" required />
+				<span>Price per book</span></li>
+
+
+			<br>
+			<input type="checkbox" id="rentable" ng-model="book.data.rentable" />
+			<label for="rentable">Rentable</label>
+			<br>
+			<br>
+			<li><label for="quantityToRent">Quantity to rent</label> <input
+				type="number" id="quantityToRent" min="0" step="1"
+				ng-model="book.data.quantityToRent" required /> <span>How
+					many of books copies are ready to be rent</span></li>
 	</form>
-	<input type="submit" id="button" onClick="scroll(0,0)" ng-click="insertForm.$valid && insert(book)"
-		value="Insert book">
+
+	<input type="submit" id="button" onClick="scroll(0,0)"
+		ng-click="insertForm.$valid && insert(book)" value="Insert book">
 
 	</ul>
 

@@ -20,17 +20,20 @@ public class BooksService {
 		return singleton;
 	}
 
-	public boolean insertBook(Book book) {
+	public Book insertBook(Book book) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			entityManager.persist(book);
+			entityManager.flush();
 			entityManager.getTransaction().commit();
 			entityManager.close();
-			return true;
+			
+			return book;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			entityManager.close();
-			return false;
+			return null;
 		}
 	}
 

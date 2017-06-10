@@ -5,11 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studies.entity.Book;
+import com.studies.entity.Genre;
+import com.studies.entity.GenrePK;
 
 public class BooksLogic {
 	
@@ -37,6 +40,12 @@ public class BooksLogic {
 	public Book makeBook(String json) throws IOException {
 		ObjectMapper mapper = new ObjectMapper();
 		Book book = mapper.readValue(json, Book.class);
+		return book;
+	}
+	
+	public List<GenrePK> makeGenres(String json) throws IOException {
+		ObjectMapper mapper = new ObjectMapper();
+		List<GenrePK> book = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, GenrePK.class));
 		return book;
 	}
 	

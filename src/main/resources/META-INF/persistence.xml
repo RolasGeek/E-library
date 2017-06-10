@@ -16,9 +16,9 @@
 			<property name="eclipselink.jdbc.exclusive-connection.is-lazy" value="false"/>
 			<property name="eclipselink.jdbc.exclusive-connection.mode" value="Always"/>
 			<!--
-			<property name="eclipselink.weaving.lazy" value="false"/>
+			<property name="eclipselink.weaving.lazy" value="false"/>-->
 			<property name="eclipselink.logging.level" value="FINE"/>
-			-->
+			
 		</properties>
 	</persistence-unit>
 </persistence>
