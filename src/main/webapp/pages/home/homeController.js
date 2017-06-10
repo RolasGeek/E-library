@@ -8,7 +8,7 @@ app.controller('homeController', ['$scope','$state' ,'$rootScope', '$cookieStore
 		$cookieStore.remove('token');
 		$cookieStore.remove('userData');
 		$location.path('/login');
-	}
+	};
 	
 	$scope.selected = undefined;
 	getBook();
