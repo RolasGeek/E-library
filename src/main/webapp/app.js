@@ -58,7 +58,14 @@ app.config(['$stateProvider','$urlRouterProvider', '$httpProvider', function($st
     	templateUrl: 'pages/booksList/booksList.html',
     	controller: 'listController',
     	cache: false
-    });
+    })
+	.state('openBook',{
+		url: '/openBook/{bookId}',
+		templateUrl: 'pages/openBook/openBook.html',
+		controller: 'openBookController',
+		cache: false
+	})
+	;
     
     
     
@@ -77,7 +84,6 @@ app.run(function($rootScope, $cookieStore, $state, $location, $http) {
 		  	if($cookieStore.get('userData')){
 		  		$rootScope.profile = $cookieStore.get('userData');
 		  		$rootScope.logedIn = true;
-		  		console.log($rootScope.profile);
 		  	} 
 		  	
 		  	if(toState.name == 'login') {
@@ -110,7 +116,12 @@ app.run(function($rootScope, $cookieStore, $state, $location, $http) {
 		  			evt.preventDefault();
 		  			$state.go('login');
 		  		}
-		  	}
+		  	} else if (toState.name == 'openBook'){
+		  		if(!$cookieStore.get('userData')){
+		  			evt.preventDefault();
+		  			$state.go('login');
+				}
+			}
 		  	
 		  	
 		  

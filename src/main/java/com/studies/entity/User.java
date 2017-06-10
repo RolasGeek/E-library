@@ -1,5 +1,7 @@
 package com.studies.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
@@ -36,10 +38,12 @@ public class User implements Serializable {
 
 	//bi-directional many-to-one association to Rent
 	@OneToMany(mappedBy="user")
+	@JsonIgnore
 	private List<Rent> rents;
 
 	//bi-directional many-to-one association to Sold
 	@OneToMany(mappedBy="user")
+	@JsonIgnore
 	private List<Sold> solds;
 
 	public User() {

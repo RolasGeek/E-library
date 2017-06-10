@@ -19,7 +19,7 @@ public class BooksService {
 		}
 		return singleton;
 	}
-	
+
 	public boolean insertBook(Book book) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {
@@ -33,13 +33,13 @@ public class BooksService {
 			return false;
 		}
 	}
-	
+
 	public Book getBook(Integer bookId) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		Book book = entityManager.find(Book.class, bookId);
 		return book;
 	}
-	
+
 	public List<Book> getAll() {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try{
@@ -54,18 +54,33 @@ public class BooksService {
 			return null;
 		}
 	}
-	
+
 	public List<Book> getSearch(String search) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		String auth = "", name = "";
 		if(search.equals("null")) {
 			return getAll();
 		} else {
-			search = "%"+search + "%";
+			if (search.contains("-")){
+				auth = "%" + search.split(" - ")[0] + "%";
+				name = "%" + search.split(" - ")[1] + "%";
+			}
+			else {
+				search = "%" + search + "%";
+			}
 		}
 		try{
 			entityManager.getTransaction().begin();
-			Query q = entityManager.createQuery("select b from Book b where b.name like ?1 or b.author like ?1", Book.class);
-			q.setParameter(1, search);
+			Query q;
+			if (!search.contains("-")){
+				q = entityManager.createQuery("select b from Book b where b.name like ?1 or b.author like ?1", Book.class);
+				q.setParameter(1, search);
+			}
+			else{
+				q = entityManager.createQuery("select b from Book b where b.name like ?1 and b.author like ?2", Book.class);
+				q.setParameter(1, name);
+				q.setParameter(2, auth);
+			}
 			List<Book> books =  q.getResultList();
 			entityManager.getTransaction().commit();
 			entityManager.close();

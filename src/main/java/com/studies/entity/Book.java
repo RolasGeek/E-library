@@ -1,5 +1,8 @@
 package com.studies.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.List;
@@ -33,20 +36,25 @@ public class Book implements Serializable {
 	@Column(name="quantity_to_sell")
 	private int quantityToSell;
 
-	private byte rentable;
+	@Column(name="rentable")
+	private boolean rentable;
 
-	private byte sellable;
+	@Column(name="sellable")
+	private boolean sellable;
 
 	//bi-directional many-to-one association to Genre
 	@OneToMany(mappedBy="book")
+	@JsonIgnore
 	private List<Genre> genres;
 
 	//bi-directional many-to-one association to Rent
 	@OneToMany(mappedBy="book")
+	@JsonIgnore
 	private List<Rent> rents;
 
 	//bi-directional many-to-one association to Sold
 	@OneToMany(mappedBy="book")
+	@JsonIgnore
 	private List<Sold> solds;
 
 	public Book() {
@@ -108,19 +116,19 @@ public class Book implements Serializable {
 		this.quantityToSell = quantityToSell;
 	}
 
-	public byte getRentable() {
+	public boolean getRentable() {
 		return this.rentable;
 	}
 
-	public void setRentable(byte rentable) {
+	public void setRentable(boolean rentable) {
 		this.rentable = rentable;
 	}
 
-	public byte getSellable() {
+	public boolean getSellable() {
 		return this.sellable;
 	}
 
-	public void setSellable(byte sellable) {
+	public void setSellable(boolean sellable) {
 		this.sellable = sellable;
 	}
 

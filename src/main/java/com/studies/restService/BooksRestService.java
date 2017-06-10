@@ -20,6 +20,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.studies.helpers.Mapper;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -54,7 +56,7 @@ public class BooksRestService {
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Path("getpdf/{bookId}")
-	public Response getBook(@PathParam("bookId") Integer bookId) {
+	public Response getBookPdf(@PathParam("bookId") Integer bookId) {
 		Book book = BooksService.getInstance().getBook(bookId);
 		File f = new File(baseDir+book.getFileName(".pdf"));
 		return Response.ok(f, MediaType.APPLICATION_OCTET_STREAM)
@@ -65,7 +67,7 @@ public class BooksRestService {
 	@GET
 	@Produces("image/png")
 	@Path("get/{bookId}")
-	public Response getPdf(@PathParam("bookId") Integer bookId) throws IOException {
+	public Response getBookImage(@PathParam("bookId") Integer bookId) throws IOException {
 		Book book = BooksService.getInstance().getBook(bookId);
 		BufferedImage img = ImageIO.read(new File(baseDir+book.getFileName(".png"))); 
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -73,20 +75,27 @@ public class BooksRestService {
 	    byte[] imageData = baos.toByteArray();
 	    return Response.ok(imageData).build();
 	}
+
+	@GET
+	@Path("getBook/{bookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getBook(@PathParam("bookId") Integer bookId) throws IOException{
+		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getBook(bookId));
+	}
 	
 	
 	@GET
 	@Path("getAll")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Book> getAll() {
-		return BooksService.getInstance().getAll();
+	public String getAll() throws JsonProcessingException {
+		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getAll());
 	}
 	
 	@GET
 	@Path("getSearch/{search}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Book> getSearch(@PathParam("search") String search) {
-		return BooksService.getInstance().getSearch(search);
+	public String getSearch(@PathParam("search") String search) {
+		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getSearch(search));
 	}
 	
 	@GET
@@ -97,6 +106,6 @@ public class BooksRestService {
 		ml.sendMail("C:/Temp/Uploaded/rolas - Rolas.pdf", "eivydas.senkus@gmail.com");
 		return "DOne";
 	}
-	
+
 	
 }

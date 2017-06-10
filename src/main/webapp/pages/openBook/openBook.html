@@ -1,1 +1,22 @@
-<
+<div class="container">
+    <div class="row">
+        <br>
+        <div class="col-md-12" >
+            <div class="media-left">
+                <img class="media-object" ng-src="rest/books/get/{{book.id}}" style="width: 260px; height: 420px;" alt="Image">
+            </div>
+            <div class="media-body">
+                <h4 class="media-heading">Author: {{book.author}}</h4>
+                <h4 class="media-heading">Name: {{book.name}}</h4>
+                Description: {{book.description}}
+            </div>
+            <div class="media-body" ng-show="book.rentable && book.quantityToRent > 0">
+                <h4 class="media-heading">RENTABLE</h4>
+            </div>
+
+            <div class="media-body" ng-show="book.sellable && book.quantityToSell > 0">
+                <h4 class="media-heading">SELLABLE</h4>
+            </div>
+        </div>
+    </div>
+</div>

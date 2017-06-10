@@ -16,12 +16,10 @@ app.controller('homeController', ['$scope','$state' ,'$rootScope', '$cookieStore
 	function getBook() {
 		return BookService.getAll().success(function(books){
 			$scope.books = books;
-			console.log($scope.books);
 		});
 	}
 	
 	$scope.search = function(searchData) {
-		console.log(searchData);
 		$state.go('bookList', {searchQuery : searchData});
 	}
 }]);

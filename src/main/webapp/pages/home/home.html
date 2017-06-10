@@ -8,7 +8,8 @@
 					<div class="input-group col-md-12" name="searchTab">
 						<input type="text" class="form-control input-lg"
 							ng-model="searchData"
-							uib-typeahead="book.author+book.name for book in books | filter:$viewValue | limitTo:8"
+						    ng-keypress="($event.which === 13)?search(searchData):0"
+							uib-typeahead="book.author + ' - ' + book.name for book in books | filter:$viewValue | limitTo:8"
 							placeholder="Search" /> <span class="input-group-btn">
 							<button class="btn btn-info btn-lg" ng-click="search(searchData)"
 								type="button">

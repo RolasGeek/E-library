@@ -13,7 +13,7 @@ import com.studies.entity.Book;
 
 public class BooksLogic {
 	
-	public static BooksLogic singleton = null;
+	public static BooksLogic singleton;
 	public static BooksLogic getInstance() {
 	if(singleton == null) {
 		singleton = new BooksLogic();

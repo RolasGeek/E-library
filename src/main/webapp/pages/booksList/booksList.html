@@ -4,7 +4,11 @@
     		<h3>Search for a book</h3>
             <div id="custom-search-input">
                 <div class="input-group col-md-12" name="searchTab">
-                    <input type="text" class="form-control input-lg" ng-model="searchData" uib-typeahead="book.author + ' ' + book.name as book.name for book in books | filter:$viewValue | limitTo:8" placeholder="Search" />
+                    <input type="text" class="form-control input-lg"
+                           ng-model="searchData"
+                           ng-keypress="($event.which === 13)?search(searchData):0"
+                           uib-typeahead="book.author + ' - ' + book.name for book in books | filter:$viewValue | limitTo:8"
+                           placeholder="Search" />
                     <span class="input-group-btn">
                         <button class="btn btn-info btn-lg" ng-click="search(searchData)" type="button">
                             <i class="glyphicon glyphicon-search"></i>
@@ -19,14 +23,16 @@
 <div class="container">
     <div class="row" ng-repeat="book in books">
     <br>
-        <div class="col-md-12" >`
-            <div ui-sref="openBook({book.id})" class="media">
+        <div class="col-md-12" >
+            <div ui-sref="openBook({bookId : book.id})" class="media">
               <div class="media-left">
                   <img class="media-object" ng-src="rest/books/get/{{book.id}}" style="width: 80px; height: 120px;" alt="Image">
               </div>
               <div class="media-body">
                 <h4 class="media-heading">Author: {{book.author}}, Name: {{book.name}}</h4>
-                Desscription: {{book.description}}
+                Description: {{book.description}}
               </div>
             </div>
         </div>
+    </div>
+</div>

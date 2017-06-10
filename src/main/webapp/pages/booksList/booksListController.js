@@ -13,7 +13,6 @@ app.controller('listController', ['$scope','$state' ,'$rootScope', '$cookieStore
 	function getSearch(search) {
 		return BookService.getSearch(search).success(function(books){
 			$scope.books = books;
-			console.log($scope.books);
 		});
 	}
 }]);
