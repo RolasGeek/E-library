@@ -20,6 +20,7 @@
             <li><a  ui-sref="insertbook">Insert Book</a></li>
             <li><a ui-sref="profile">Profile</a></li>
             <li><a ui-sref="editProfile">UserProfile</a></li>
+             <li><a ui-sref="users">Users</a></li>
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown">Company <b class="caret"></b></a>
               <ul class="dropdown-menu" role="menu">
@@ -31,6 +32,9 @@
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-xs">
             <a type="button" class="navbar-btn btn btn-gradient-blue" am-latosans="bold" href="https://susteen7.zendesk.com/hc/en-us">Support</a>
+          </ul>
+            <ul class="nav navbar-nav navbar-right js-nav-add-active-class">
+          <li><a ng-if="logedIn" ui-sref="logout">Logout</a></li>
           </ul>
         </div><!-- /.navbar-collapse -->
       </div>

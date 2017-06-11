@@ -8,6 +8,12 @@ app.controller('listController', ['$scope','$state' ,'$rootScope', '$cookieStore
 		$state.go('bookList', {searchQuery : searchData});
 	}
 	
+	$scope.removeBook = function(bookId) {
+		BookService.removeBook(bookId).success(function(reponse){
+			$state.reload();
+		});
+	}
+	
 	getSearch($scope.searchData);
 	
 	function getSearch(search) {
@@ -15,4 +21,5 @@ app.controller('listController', ['$scope','$state' ,'$rootScope', '$cookieStore
 			$scope.books = books;
 		});
 	}
+	
 }]);

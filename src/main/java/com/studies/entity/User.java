@@ -34,7 +34,7 @@ public class User implements Serializable {
 	private String token;
 
 	@Column(name="user_level")
-	private byte userLevel;
+	private int userLevel;
 
 	//bi-directional many-to-one association to Rent
 	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
@@ -97,11 +97,11 @@ public class User implements Serializable {
 		this.token = token;
 	}
 
-	public byte getUserLevel() {
+	public int getUserLevel() {
 		return this.userLevel;
 	}
 
-	public void setUserLevel(byte userLevel) {
+	public void setUserLevel(int userLevel) {
 		this.userLevel = userLevel;
 	}
 

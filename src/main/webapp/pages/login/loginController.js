@@ -12,13 +12,11 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'Login
 				} else if (data == '0') {
 					$scope.error = "Klaidingi duomenys";
 				} else {
-				$rootScope.token = data;
-				var decoded = jwt_decode($rootScope.token);
-				console.log(decoded);
-				$cookieStore.put('token', $rootScope.token);
-				$cookieStore.put('userData', decoded);
+				console.log(data);
+				$cookieStore.put('token', data.token);
+				$cookieStore.put('userData', data);
 				$rootScope.logedIn = true;
-				$rootScope.profile =decoded;
+				$rootScope.profile =data;
 				$location.path('/home');
 				console.log("prisijungiau");
 				}

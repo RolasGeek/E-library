@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -13,17 +14,39 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.studies.entity.User;
+import com.studies.helpers.Mapper;
+import com.studies.logic.BooksLogic;
 import com.studies.logic.UserLogic;
+import com.studies.service.BooksService;
 import com.studies.service.UserService;
 
 
 @Path("users")
 public class UserRestService {
 
+	@GET
+	@Path("/getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getUsers() {
+		return Mapper.getInstance().entityToJSON(UserService.getInstance().getAll());
+	}
+	
+	@POST
+	@Path("/update")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response updateUser(User user) {
+		if(UserService.getInstance().update(user)) {
+			return Response.ok().build();
+		}
+		return Response.status(400).build();
+	}
    
     @POST
     @Path("/register")
@@ -51,10 +74,12 @@ public class UserRestService {
     }
     
     
+    
+    
     @POST
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_XML)
+    @Produces(MediaType.APPLICATION_JSON)
     public String getLogin(User user) throws UnsupportedEncodingException {
     	Integer state = null;
     	if(user.getUsername() != null && user.getPassword() != null) {
@@ -75,16 +100,15 @@ public class UserRestService {
     	}
     	
     	if(state ==  2) {
-    		String token = UserService.getInstance().updateDate(u);
-    		String s = UserLogic.getInstance().decodeToken(token).toString();
-    		return token; 
+    		User usr = UserService.getInstance().login(u);
+    		return Mapper.getInstance().entityToJSON(usr); 
     	}
     
     	}
     	else{
     		state = 0;
     	}
-		return  state.toString();
+		return  null;
     }
     
     

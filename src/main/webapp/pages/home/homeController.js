@@ -1,15 +1,6 @@
 var app = angular.module("myApp");
 
 app.controller('homeController', ['$scope','$state' ,'$rootScope', '$cookieStore', '$location', 'BookService', function($scope, $state, $rootScope, $cookieStore, $location, BookService) {
-	
-	$scope.logOut = function() {
-		$rootScope.profile = null;
-		$rootScope.logedIn = false;
-		$cookieStore.remove('token');
-		$cookieStore.remove('userData');
-		$location.path('/login');
-	};
-	
 	$scope.selected = undefined;
 	getBook();
 	

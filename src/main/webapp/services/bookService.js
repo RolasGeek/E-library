@@ -23,6 +23,10 @@ app.factory('BookService',['$http', function ($http) {
 	booksService.get = function(bookId) {
 		return $http.get(urlBase+ "get/" + bookId);
 	};
+	
+	booksService.removeBook = function(bookId) {
+		return $http.get(urlBase+ "delete/" + bookId);
+	};
 
 	booksService.getBook = function(bookId){
 		return $http.get(urlBase + "getBook/" + bookId);

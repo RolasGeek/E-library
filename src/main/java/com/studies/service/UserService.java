@@ -37,6 +37,20 @@ public class UserService {
     	return true;
     }
     
+    public Boolean update(User user) {
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+    	try {
+    		entityManager.getTransaction().begin();
+    		entityManager.merge(user);
+    		entityManager.getTransaction().commit();
+    		entityManager.close();
+    		return true;
+    	}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+    }
+    
     public User hasUser(String username) {
     	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try {
@@ -103,7 +117,22 @@ public class UserService {
     }
     
     
-    public String updateDate(User u) {
+    public List<User> getAll() {
+    	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+    	try{
+    		entityManager.getTransaction().begin();
+    		List<User> list = (List<User>) entityManager.createNamedQuery("User.findAll").getResultList();
+    		entityManager.getTransaction().commit();
+    		entityManager.close();
+    		return list;
+    	} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    	
+    }
+    
+    public User login(User u) {
 		
 		Date dt = new Date();
 		Calendar c = Calendar.getInstance(); 
@@ -119,7 +148,7 @@ public class UserService {
 			entityManager.getTransaction().commit();
 			entityManager.close();
 			
-			return token;
+			return u;
 		
 	}
     

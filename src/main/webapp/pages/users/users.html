@@ -1,0 +1,28 @@
+
+<div class="container" >
+<div ng-class="alertclass" ng-if="render" role="alert">
+		{{alertmessage}}</div>
+	<form class="form-style-7">
+		<ul>
+			<div ng-repeat="user in users">
+				<br>
+				<li><label>Username: {{user.username}}</label>
+					<p align="left">
+						<br>Email: {{user.email}}
+					</p>
+					<div class="form-group">
+						<p align="left">
+						Type:
+					</p>
+						<select ng-model="user.userLevel" class="form-control"
+							name="type"
+							ng-options="level.level as level.type for level in levels">
+						</select>
+					</div>
+					<button class="btn btn-gradient-blue" ng-click="updateUser(user)">Change</button>
+					</li>
+					<br>
+			</div>
+		</ul>
+	</form>
+</div>

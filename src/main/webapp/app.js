@@ -75,6 +75,18 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($
             controller: 'rentBookController',
             cache: false
         })
+        .state('logout',{
+            url: '/logout',
+            templateUrl: 'pages/logout/logout.html',
+            controller: 'logoutController',
+            cache: false
+        })
+        .state('users',{
+            url: '/users',
+            templateUrl: 'pages/users/users.html',
+            controller: 'usersController',
+            cache: false
+        })
     ;
 
 
@@ -144,6 +156,7 @@ app.run(function ($rootScope, $cookieStore, $state, $location, $http) {
                 $state.go('login');
             }
         }
+        
 
 
     });
