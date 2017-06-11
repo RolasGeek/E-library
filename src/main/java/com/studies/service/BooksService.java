@@ -118,6 +118,57 @@ public class BooksService {
 		return book;
 	}
 
+	public List<Rent> getRents(){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		entityManager.getTransaction().begin();
+		Query q = entityManager.createQuery("select r from Rent r", Rent.class);
+		List<Rent> rents =  q.getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return rents;
+	}
+
+	public List<Rent> getRents(Integer bookId){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		entityManager.getTransaction().begin();
+		Query q = entityManager.createQuery("select r from Rent r where r.book.id = ?1", Rent.class);
+		q.setParameter(1, bookId);
+		List<Rent> rents =  q.getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return rents;
+	}
+
+	public List<Rent> getRents(String username){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		entityManager.getTransaction().begin();
+		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1", Rent.class);
+		q.setParameter(1, username);
+		List<Rent> rents =  q.getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return rents;
+	}
+
+	public boolean isAlreadyRented(Integer bookId, String username){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		entityManager.getTransaction().begin();
+		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1 and r.book.id = ?2", Rent.class);
+		q.setParameter(1, username);
+		q.setParameter(2, bookId);
+		List<Rent> rents =  q.getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		if (rents.size() > 0){
+			return true;
+		}
+		return false;
+	}
+
 	public List<Book> getAll() {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {

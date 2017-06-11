@@ -17,7 +17,7 @@
                 <h4 class="media-heading">Library name: {{libraryName}}</h4>
                 <h4 class="media-heading">Library address: {{libraryAddress}}</h4>
                 <button class="btn btn-gradient-blue" ng-click="rentFromLibrary()">Rent</button>
-                <div ng-class="alertclass" role="alert">
+                <div ng-class="alertclass" role="alert" style="color: cyan;">
                     {{alertLibraryMessage}}</div>
             </div>
         </li>
@@ -26,6 +26,8 @@
             <div id="rentHome">
                 <h4 class="media-heading">Home address: {{address}}</h4>
                 <button class="btn btn-gradient-blue" ng-click="rentToHome()">Rent</button>
+                <div ng-class="alertclass" role="alert" style="color: cyan;">
+                    {{alertHomeMessage}}</div>
             </div>
         </li>
         <h4 class="media-heading" style="color: red;" ng-show="!addressExists">Rent to home only available when user

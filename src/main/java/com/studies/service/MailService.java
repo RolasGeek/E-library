@@ -20,13 +20,20 @@ private static String RECIPIENT = "rolandas.jasiunas@gmail.com";
 public void sendMail(String link, String to) {
     String from = USER_NAME;
     String pass = PASSWORD;
-    String subject = "Java send mail example";
-    String body = "hi ....,!";
+    String subject = "Purchase from E-library";
+    String body = "Thank you for your purchase, here is yours file";
 
-    sendFromGMail(from, pass, to, subject, body);
+    sendFromGMail(from, pass, to, subject, body, link);
 }
 
-private static void sendFromGMail(String from, String pass, String to, String subject, String body) {
+public void sendMail(String link, String to, String subject, String body){
+    String from = USER_NAME;
+    String pass = PASSWORD;
+    sendFromGMail(from, pass, to, subject, body, link);
+}
+
+
+private static void sendFromGMail(String from, String pass, String to, String subject, String body, String link) {
     Properties props = System.getProperties();
   String host = "smtp.gmail.com";
 
@@ -49,12 +56,12 @@ private static void sendFromGMail(String from, String pass, String to, String su
         InternetAddress toAddress = new InternetAddress(to);
 
         message.addRecipient(Message.RecipientType.TO, toAddress);
-        message.setSubject("That you for purchasing our book");
+        message.setSubject(subject);
      // Create the message part
         BodyPart messageBodyPart = new MimeBodyPart();
         
         // Now set the actual message
-        messageBodyPart.setText("You have succesfully purchased book, here is your pdf file");
+        messageBodyPart.setText(body);
 
         // Create a multipar message
         Multipart multipart = new MimeMultipart();
@@ -63,12 +70,14 @@ private static void sendFromGMail(String from, String pass, String to, String su
         multipart.addBodyPart(messageBodyPart);
 
         // Part two is attachment
-        messageBodyPart = new MimeBodyPart();
-        String filename = "D:/Project/Uploaded/rolas - Rolas.pdf";
-        DataSource source = new FileDataSource(filename);
-        messageBodyPart.setDataHandler(new DataHandler(source));
-        messageBodyPart.setFileName(filename);
-        multipart.addBodyPart(messageBodyPart);
+        if (link != null){
+            messageBodyPart = new MimeBodyPart();
+            String filename = link;
+            DataSource source = new FileDataSource(filename);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(filename);
+            multipart.addBodyPart(messageBodyPart);
+        }
 
         // Send the complete message parts
         message.setContent(multipart);

@@ -10,3 +10,4 @@ MANIFEST.MF
 *.iml
 *.idea
 local-stage
+/src/main/resources/rebel.xml

@@ -18,24 +18,34 @@ app.controller('rentBookController', ['$scope', '$state', '$rootScope', '$cookie
 
     $scope.libraryName = $rootScope.libraryName;
     $scope.libraryAddress = $rootScope.libraryAddress;
-    $scope.username = $rootScope.profile.iss;
+    $scope.username = $rootScope.profile.username;
     $scope.email = $rootScope.profile.email;
     $scope.address = $rootScope.profile.address;
-    $scope.addressExists = angular.isDefined($scope.address);
+    $scope.addressExists = (angular.isDefined($scope.address) && $scope.address !== "");
 
     console.log($rootScope.profile);
 
-    $scope.rentToHome = function(){
+    function rent(toHome){
+        var formData = new FormData();
+        formData.append('book', $scope.book.id);
+        formData.append('user', $scope.username);
+        formData.append('toHome', toHome);
+        BookService.rentBook(formData).success(function(data){
+            if (toHome){
+                $scope.alertHomeMessage = data;
+            }
+            else{
+                $scope.alertLibraryMessage = data;
+            }
+        })
+    }
 
+    $scope.rentToHome = function(){
+        rent(true);
     };
 
     $scope.rentFromLibrary = function(){
-        var formData = new FormData();
-        formData.append('book', $scope.book.id);
-        formData.append('user', $rootScope.profile.iss);
-        BookService.rentBook(formData).success(function(data){
-          $scope.alertLibraryMessage = data;
-        })
+        rent(false);
     };
 
 }]);

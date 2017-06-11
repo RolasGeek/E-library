@@ -25,11 +25,13 @@ public class Sold implements Serializable {
 	private double price;
 
 	//bi-directional many-to-one association to Book
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name = "book_id")
 	private Book book;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name = "user_username")
 	private User user;
 
 	public Sold() {

@@ -16,7 +16,7 @@ app.controller('loginController', ['$scope','$rootScope', '$cookieStore', 'Login
 				$cookieStore.put('token', data.token);
 				$cookieStore.put('userData', data);
 				$rootScope.logedIn = true;
-				$rootScope.profile =data;
+				$rootScope.profile = data;
 				$location.path('/home');
 				console.log("prisijungiau");
 				}

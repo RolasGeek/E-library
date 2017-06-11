@@ -18,7 +18,7 @@ public class Mapper {
         return singleton;
     }
 
-    public String entityToJSON(Object obj){
+    public String objectToJSON(Object obj){
         String json = null;
         try {
             json = mapper.writeValueAsString(obj);

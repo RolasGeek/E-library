@@ -24,11 +24,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.studies.entity.User;
 import com.studies.helpers.Mapper;
 import com.studies.service.UserService;
-import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studies.entity.Book;
 import com.studies.entity.Genre;
 import com.studies.entity.GenrePK;
@@ -88,8 +86,11 @@ public class BooksRestService {
 	@Path("/rentBook")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
 	@Produces(MediaType.APPLICATION_XML)
-	public String rentBook(@FormDataParam("book") Integer bookId, @FormDataParam("user") String username,
-			@Context HttpHeaders headers) throws IOException {
+	public String rentBook(@FormDataParam("book") Integer bookId, @FormDataParam("user") String username, @FormDataParam("toHome") boolean toHome, @Context HttpHeaders headers) throws IOException {
+		if (BooksService.getInstance().isAlreadyRented(bookId, username)){
+			return "User has already rented this book!";
+		}
+
 		Book book = BooksService.getInstance().getBook(bookId);
 
 		if (book.getQuantityToRent() <= 0) {
@@ -100,10 +101,26 @@ public class BooksRestService {
 		}
 
 		User user = UserService.getInstance().getUser(username);
-
 		BooksService.getInstance().rentBook(book, user);
+		if (toHome){
+			//TODO: siusti tik laiska admin, kad uzsakymas i namus paruostas, o ne siusti vartotojui visa faila
+			//sendMail(baseDir + book.getAuthor() + " - " + book.getName() + ".pdf", "eivyses@gmail.com");
+			String subject = "Rent to home from E-library";
+			String body = "User: " + username + " has rented book: '" + book.getAuthor() + " - " + book.getName()
+						+ "' to home at address: " + user.getAddress();
+			sendMail(null, "eivyses@gmail.com", subject, body);
+			return "Book has successfully been rented, please wait for administrator to send it to your address";
+		}
 		return "Book has been successfully rented";
 	}
+
+	@GET
+	@Path("getRents/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getRents(@PathParam("username") String username) throws IOException{
+		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getRents(username));
+	}
+
 
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
@@ -131,8 +148,8 @@ public class BooksRestService {
 	@GET
 	@Path("getBook/{bookId}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String getBook(@PathParam("bookId") Integer bookId) throws IOException {
-		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getBook(bookId));
+	public String getBook(@PathParam("bookId") Integer bookId) throws IOException{
+		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getBook(bookId));
 	}
 
 	@GET
@@ -149,14 +166,14 @@ public class BooksRestService {
 	@Path("getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getAll() throws JsonProcessingException {
-		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getAll());
+		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getAll());
 	}
 
 	@GET
 	@Path("getSearch/{search}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getSearch(@PathParam("search") String search) {
-		return Mapper.getInstance().entityToJSON(BooksService.getInstance().getSearch(search));
+		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getSearch(search));
 	}
 
 	@GET
@@ -165,7 +182,17 @@ public class BooksRestService {
 	public String sendMail() {
 		MailService ml = new MailService();
 		ml.sendMail("C:/Temp/Uploaded/rolas - Rolas.pdf", "eivydas.senkus@gmail.com");
-		return "DOne";
+		return "Done";
+	}
+
+	public void sendMail(String link, String to){
+		MailService ml = new MailService();
+		ml.sendMail(link, to);
+	}
+
+	public void sendMail(String link, String to, String subject, String body){
+		MailService ml = new MailService();
+		ml.sendMail(link, to, subject, body);
 	}
 
 }

@@ -32,6 +32,10 @@ app.factory('BookService',['$http', function ($http) {
 		return $http.get(urlBase + "getBook/" + bookId);
 	};
 
+	booksService.getRents = function(username){
+		return $http.get(urlBase + "getRents/" + username);
+	};
+
 	booksService.getAll = function() {
 		return $http.get(urlBase+ "getAll");
 	};

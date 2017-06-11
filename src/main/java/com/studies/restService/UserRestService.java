@@ -2,28 +2,18 @@
 package com.studies.restService;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Calendar;
-import java.util.Date;
 
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.studies.entity.User;
 import com.studies.helpers.Mapper;
-import com.studies.logic.BooksLogic;
 import com.studies.logic.UserLogic;
-import com.studies.service.BooksService;
 import com.studies.service.UserService;
 
 
@@ -34,7 +24,7 @@ public class UserRestService {
 	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	public String getUsers() {
-		return Mapper.getInstance().entityToJSON(UserService.getInstance().getAll());
+		return Mapper.getInstance().objectToJSON(UserService.getInstance().getAll());
 	}
 	
 	@POST
@@ -81,7 +71,7 @@ public class UserRestService {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public String getLogin(User user) throws UnsupportedEncodingException {
-    	Integer state = null;
+    	Integer state;
     	if(user.getUsername() != null && user.getPassword() != null) {
 	    	String hashedPassword = UserLogic.getInstance().getSHA512SecurePassword(user.getPassword(), "E-Library");
 	    	User u = UserService.getInstance().hasUser(user.getUsername());
@@ -101,12 +91,9 @@ public class UserRestService {
     	
     	if(state ==  2) {
     		User usr = UserService.getInstance().login(u);
-    		return Mapper.getInstance().entityToJSON(usr); 
+    		return Mapper.getInstance().objectToJSON(usr);
     	}
     
-    	}
-    	else{
-    		state = 0;
     	}
 		return  null;
     }
