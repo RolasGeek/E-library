@@ -13,13 +13,12 @@ app.controller('editBookController', ['$scope', '$state', '$rootScope', '$cookie
 
     $scope.editBook = function(book){
         var formData = new FormData();
-        formData.append('image', book.file);
-        formData.append('file1', book.file1);
-        var bookData = book;
-        var json_test = JSON.stringify(bookData);
+        formData.append('image', $scope.book.file);
+        formData.append('file1', $scope.book.file1);
+        var json_test = JSON.stringify(book);
         formData.append('book', json_test);
 
-        BookService.insert(formData).success(function(data) {
+        BookService.insert(formData).success(function (data) {
             $scope.render=true;
             $scope.alertclass="alert alert-success";
             $scope.alertmessage="Book has been updated";

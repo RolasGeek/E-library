@@ -54,9 +54,13 @@ public class BooksRestService {
 		//TODO: update files
 		BooksService.getInstance().updateBook(book);
 		if (fileDetail.getFileName() != null){
+			File f = new File(baseDir + book.getFileName(".png"));
+			f.delete();
 			BooksLogic.getInstance().saveFile(file, book.getFileName(".png"));
 		}
 		if (fileDetail1.getFileName() != null){
+			File f = new File(baseDir + book.getFileName(".pdf"));
+			f.delete();
 			BooksLogic.getInstance().saveFile(file1, book.getFileName(".pdf"));
 		}
 	} else{
