@@ -12,6 +12,13 @@ app.factory('BookService',['$http', function ($http) {
 			 headers: {'Content-Type': undefined}
 		});
 	};
+
+    booksService.rentBook = function(data){
+        return $http.post(urlBase + "rentBook", data, {
+            transformRequest: angular.identity,
+            headers: {'Content-Type': undefined}
+        });
+    };
 	
 	booksService.get = function(bookId) {
 		return $http.get(urlBase+ "get/" + bookId);

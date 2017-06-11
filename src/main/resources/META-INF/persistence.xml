@@ -5,7 +5,6 @@
 		<class>com.studies.entity.Genre</class>
 		<class>com.studies.entity.GenrePK</class>
 		<class>com.studies.entity.Rent</class>
-		<class>com.studies.entity.RentPK</class>
 		<class>com.studies.entity.Sold</class>
 		<class>com.studies.entity.User</class>
 		<properties>

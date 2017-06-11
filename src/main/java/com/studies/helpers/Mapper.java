@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.studies.entity.Book;
 
+import java.io.IOException;
+
 public class Mapper {
     public static Mapper singleton;
     private ObjectMapper mapper;

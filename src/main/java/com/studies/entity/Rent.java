@@ -14,29 +14,39 @@ import java.util.Date;
 public class Rent implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId
-	private RentPK id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="mySeq")
+	@Column(name = "id")
+	private int id;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="due_date")
 	private Date dueDate;
 
+	@Column(name="taken")
+	private boolean taken;
+
+	@Column(name="returned")
+	private boolean returned;
+
 	//bi-directional many-to-one association to Book
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="book_id", nullable=false)
 	private Book book;
 
 	//bi-directional many-to-one association to User
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name="user_username", nullable=false)
 	private User user;
 
 	public Rent() {
 	}
 
-	public RentPK getId() {
+	public int getId() {
 		return this.id;
 	}
 
-	public void setId(RentPK id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -62,6 +72,22 @@ public class Rent implements Serializable {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public boolean isTaken() {
+		return taken;
+	}
+
+	public void setTaken(boolean taken) {
+		this.taken = taken;
+	}
+
+	public boolean isReturned() {
+		return returned;
+	}
+
+	public void setReturned(boolean returned) {
+		this.returned = returned;
 	}
 
 }

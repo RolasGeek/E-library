@@ -37,7 +37,7 @@ public class User implements Serializable {
 	private byte userLevel;
 
 	//bi-directional many-to-one association to Rent
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Rent> rents;
 

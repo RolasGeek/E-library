@@ -1,11 +1,18 @@
 package com.studies.service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import com.studies.entity.Rent;
+import com.studies.entity.User;
 import org.apache.commons.codec.net.QCodec;
 
 import com.studies.entity.Book;
@@ -42,10 +49,42 @@ public class BooksService {
 		try{
 			entityManager.getTransaction().begin();
 			entityManager.merge(book);
-			entityManager.getTransaction().commit();;
+			entityManager.getTransaction().commit();
 			entityManager.close();
 			return true;
 		} catch (Exception ex){
+			entityManager.close();
+			return false;
+		}
+	}
+
+	public boolean rentBook(Book book, User user){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		book.setQuantityToRent(book.getQuantityToRent() - 1);
+		if (book.getQuantityToRent() <= 0){
+			book.setRentable(false);
+		}
+
+		updateBook(book);
+
+		Rent rent = new Rent();
+		rent.setBook(book);
+		rent.setUser(user);
+
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 30);
+		rent.setDueDate(cal.getTime());
+
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(rent);
+			entityManager.flush();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
 			entityManager.close();
 			return false;
 		}

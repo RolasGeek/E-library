@@ -69,6 +69,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($
             controller: 'editBookController',
             cache: false
         })
+        .state('rentBook',{
+            url: '/rentBook/{bookId}',
+            templateUrl: 'pages/rentBook/rentBook.html',
+            controller: 'rentBookController',
+            cache: false
+        })
     ;
 
 
@@ -82,6 +88,9 @@ app.run(function ($rootScope, $cookieStore, $state, $location, $http) {
         $http.defaults.headers.common.Authorization = $cookieStore.get('token');
         $rootScope.logedIn = true;
     }
+
+    $rootScope.libraryName = "KTU biblioteka";
+    $rootScope.libraryAddress = "K. Donelaičio g. 73, LT-44249 Kaunas";
 
     $rootScope.$on('$stateChangeStart', function (evt, toState, toParams, fromState, fromParams) {
         if ($cookieStore.get('userData')) {
@@ -126,6 +135,11 @@ app.run(function ($rootScope, $cookieStore, $state, $location, $http) {
             }
         } else if (toState.name === 'editBook') {
             if (!$cookieStore.get('userData')) {
+                evt.preventDefault();
+                $state.go('login');
+            }
+        } else if (toState.name === 'rentBook'){
+            if (!$cookieStore.get('userData')){
                 evt.preventDefault();
                 $state.go('login');
             }

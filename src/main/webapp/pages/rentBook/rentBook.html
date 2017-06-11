@@ -1,0 +1,34 @@
+<h1 class="media-heading" style="color: red;" ng-show="!bookExists">Book doesn't exist!</h1>
+<div class="container" ng-show="bookExists">
+    <div class="row">
+        <h1 class="media-heading">Rent this book:</h1>
+        <br>
+        <div class="col-md-12">
+            <div class="media-body">
+                <h4 class="media-heading">Author: {{book.author}}</h4>
+                <h4 class="media-heading">Name: {{book.name}}</h4>
+                <br>
+            </div>
+        </div>
+        <br>
+
+        <li><label for="rentLibrary">Rent from library</label>
+            <div id="rentLibrary">
+                <h4 class="media-heading">Library name: {{libraryName}}</h4>
+                <h4 class="media-heading">Library address: {{libraryAddress}}</h4>
+                <button class="btn btn-gradient-blue" ng-click="rentFromLibrary()">Rent</button>
+                <div ng-class="alertclass" role="alert">
+                    {{alertLibraryMessage}}</div>
+            </div>
+        </li>
+        <br><br>
+        <li ng-show="addressExists"><label for="rentHome">Rent to home</label>
+            <div id="rentHome">
+                <h4 class="media-heading">Home address: {{address}}</h4>
+                <button class="btn btn-gradient-blue" ng-click="rentToHome()">Rent</button>
+            </div>
+        </li>
+        <h4 class="media-heading" style="color: red;" ng-show="!addressExists">Rent to home only available when user
+            address is defined</h4>
+    </div>
+</div>

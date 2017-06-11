@@ -13,6 +13,10 @@ app.controller('openBookController', ['$scope','$state' ,'$rootScope', '$cookieS
 
     $scope.editBook = function(){
         $state.go('editBook', {bookId : $scope.book.id});
+    };
+
+    $scope.rentBook = function(){
+        $state.go('rentBook', {bookId : $scope.book.id});
     }
 
 }]);

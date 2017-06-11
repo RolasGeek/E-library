@@ -15,6 +15,7 @@ public class Sold implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY, generator="mySeq")
 	private int id;
 
 	@Temporal(TemporalType.DATE)

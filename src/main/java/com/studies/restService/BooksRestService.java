@@ -21,7 +21,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.studies.entity.User;
 import com.studies.helpers.Mapper;
+import com.studies.service.UserService;
 import org.apache.commons.io.IOUtils;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
@@ -78,7 +80,27 @@ public class BooksRestService {
 	}
 	return "Fuck u";
 	}
-	
+
+	@POST
+	@Path("/rentBook")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_XML)
+	public String rentBook(@FormDataParam("book") Integer bookId, @FormDataParam("user") String username, @Context HttpHeaders headers) throws IOException {
+		Book book = BooksService.getInstance().getBook(bookId);
+
+		if (book.getQuantityToRent() <= 0){
+			return "Not enough books to rent";
+		}
+		if (!book.getRentable()){
+			return "Book is not rentable";
+		}
+
+		User user = UserService.getInstance().getUser(username);
+
+		BooksService.getInstance().rentBook(book, user);
+		return "Book has been successfully rented";
+	}
+
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Path("getpdf/{bookId}")

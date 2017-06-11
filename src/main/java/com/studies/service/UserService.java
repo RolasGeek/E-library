@@ -75,7 +75,13 @@ public class UserService {
     		return false;
     	}
     }
-    
+
+	public User getUser(String username) {
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		User user = entityManager.find(User.class, username);
+		return user;
+	}
+
     public boolean emailExists(String email){
     	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try{

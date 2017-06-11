@@ -13,7 +13,7 @@
                 <button class="btn btn-gradient-blue" ng-click="editBook()">Edit book</button>
             </div>
             <div class="media-body" ng-show="book.rentable && book.quantityToRent > 0">
-                <button class="btn btn-success btn-sm">Rent this book</button>
+                <button class="btn btn-success btn-sm" ng-click="rentBook()">Rent this book</button>
             </div>
             <div class="media-body" ng-show="book.sellable && book.quantityToSell > 0">
                 <button class="btn btn-success btn-sm">Buy this book</button>

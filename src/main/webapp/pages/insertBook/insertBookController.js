@@ -38,7 +38,6 @@ app.controller("insertBookController", ['$scope', '$rootScope', '$cookieStore', 
 		
 		console.log(formdata);
 		BookService.insert(formdata).success(function(data) {
-			
 			$scope.render=true;
 			$scope.alertclass="alert alert-success";
 			$scope.alertmessage="Book has been inserted";

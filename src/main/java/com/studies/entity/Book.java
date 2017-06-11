@@ -49,12 +49,12 @@ public class Book implements Serializable {
 	private List<Genre> genres;
 
 	//bi-directional many-to-one association to Rent
-	@OneToMany(mappedBy="book")
+	@OneToMany(mappedBy="book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Rent> rents;
 
 	//bi-directional many-to-one association to Sold
-	@OneToMany(mappedBy="book")
+	@OneToMany(mappedBy="book", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Sold> solds;
 

@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.List;
 
+import com.studies.entity.User;
 import org.apache.commons.io.IOUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,6 +48,12 @@ public class BooksLogic {
 		ObjectMapper mapper = new ObjectMapper();
 		List<GenrePK> book = mapper.readValue(json, mapper.getTypeFactory().constructCollectionType(List.class, GenrePK.class));
 		return book;
+	}
+
+	public User makeUser(String json) throws IOException{
+		ObjectMapper mapper = new ObjectMapper();
+		User user = mapper.readValue(json, User.class);
+		return user;
 	}
 	
 	public String getFileExtentionFromName(String name) {
