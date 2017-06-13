@@ -5,9 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.print.attribute.standard.Media;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -51,10 +53,24 @@ public class BooksRestService {
 			@FormDataParam("genres") String genres, @Context HttpHeaders headers) throws IOException {
 		String st = headers.getRequestHeaders().getFirst("Authorization");
 		Book book = BooksLogic.getInstance().makeBook(json);
+		//BooksService.getInstance().updateBook(book);
+		BooksService.getInstance().deleteBookGenres(book.getId());
+		book.setRents(BooksService.getInstance().getRents(book.getId()));
+		book.setSolds(BooksService.getInstance().getSolds(book.getId()));
+		book = BooksService.getInstance().updateBook(book);
 		List<GenrePK> gnr = BooksLogic.getInstance().makeGenres(genres);
 		if (book.getId() != 0) {
 			// Update files
-			// TODO: update files
+			List<Genre> genre = new ArrayList<>();
+			for(GenrePK genrePK : gnr){
+				genrePK.setBookId(book.getId());
+				Genre g = new Genre();
+				g.setId(genrePK);
+				g.setBook(book);
+				book.addGenre(g);
+			}
+
+			//book.setGenres(genre);
 			BooksService.getInstance().updateBook(book);
 			if (fileDetail.getFileName() != null) {
 				File f = new File(baseDir + book.getFileName(".png"));
@@ -103,8 +119,6 @@ public class BooksRestService {
 		User user = UserService.getInstance().getUser(username);
 		BooksService.getInstance().rentBook(book, user);
 		if (toHome){
-			//TODO: siusti tik laiska admin, kad uzsakymas i namus paruostas, o ne siusti vartotojui visa faila
-			//sendMail(baseDir + book.getAuthor() + " - " + book.getName() + ".pdf", "eivyses@gmail.com");
 			String subject = "Rent to home from E-library";
 			String body = "User: " + username + " has rented book: '" + book.getAuthor() + " - " + book.getName()
 						+ "' to home at address: " + user.getAddress();
@@ -112,6 +126,27 @@ public class BooksRestService {
 			return "Book has successfully been rented, please wait for administrator to send it to your address";
 		}
 		return "Book has been successfully rented";
+	}
+
+	@POST
+	@Path("/buyBook")
+	@Consumes(MediaType.MULTIPART_FORM_DATA)
+	@Produces(MediaType.APPLICATION_XML)
+	public String buyBook(@FormDataParam("book") Integer bookId, @FormDataParam("user") String username, @FormDataParam("toHome") boolean toHome, @Context HttpHeaders headers) throws IOException {
+		Book book = BooksService.getInstance().getBook(bookId);
+
+		if (book.getQuantityToSell() <= 0) {
+			return "Not enough books to be sold";
+		}
+		if (!book.getSellable()) {
+			return "Book is not sellable";
+		}
+
+		User user = UserService.getInstance().getUser(username);
+		BooksService.getInstance().buyBook(book, user);
+		String fileLink = baseDir + book.getAuthor() + " - " + book.getName() + ".pdf";
+		sendMail(fileLink, "eivyses@gmail.com");
+		return "Book has successfully been purchased, email with book pdf has been send to you";
 	}
 
 	@GET
@@ -153,6 +188,13 @@ public class BooksRestService {
 	}
 
 	@GET
+	@Path("getBookGenres/{bookId}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getBookGenres(@PathParam("bookId") Integer bookId) throws  IOException{
+		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getBook(bookId).getGenres());
+	}
+
+	@GET
 	@Path("delete/{bookId}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getSearch(@PathParam("bookId") Integer bookId) {
@@ -185,11 +227,23 @@ public class BooksRestService {
 		return "Done";
 	}
 
+	/**
+	 * Send mail to user with default subject and body
+	 * @param link file location to be attached
+	 * @param to email of recipient
+	 */
 	public void sendMail(String link, String to){
 		MailService ml = new MailService();
 		ml.sendMail(link, to);
 	}
 
+	/**
+	 * Send mail to user
+	 * @param link file location to be attached
+	 * @param to email of recipient
+	 * @param subject subject of email
+	 * @param body body of email
+	 */
 	public void sendMail(String link, String to, String subject, String body){
 		MailService ml = new MailService();
 		ml.sendMail(link, to, subject, body);

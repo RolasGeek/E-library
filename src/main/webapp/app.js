@@ -87,6 +87,12 @@ app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function ($
             controller: 'usersController',
             cache: false
         })
+        .state('buyBook',{
+            url: '/buyBook/{bookId}',
+            templateUrl: 'pages/buyBook/buyBook.html',
+            controller: 'buyBookController',
+            cache: false
+        })
     ;
 
 
@@ -151,6 +157,11 @@ app.run(function ($rootScope, $cookieStore, $state, $location, $http) {
                 $state.go('login');
             }
         } else if (toState.name === 'rentBook'){
+            if (!$cookieStore.get('userData')){
+                evt.preventDefault();
+                $state.go('login');
+            }
+        } else if (toState.name === 'buyBook'){
             if (!$cookieStore.get('userData')){
                 evt.preventDefault();
                 $state.go('login');

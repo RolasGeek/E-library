@@ -19,6 +19,13 @@ app.factory('BookService',['$http', function ($http) {
             headers: {'Content-Type': undefined}
         });
     };
+
+    booksService.buyBook = function(data){
+    	return $http.post(urlBase + "buyBook", data,{
+    		transformRequest: angular.identity,
+			headers: {'Content-Type': undefined}
+		})
+	};
 	
 	booksService.get = function(bookId) {
 		return $http.get(urlBase+ "get/" + bookId);
@@ -30,6 +37,10 @@ app.factory('BookService',['$http', function ($http) {
 
 	booksService.getBook = function(bookId){
 		return $http.get(urlBase + "getBook/" + bookId);
+	};
+
+	booksService.getGenres = function(bookId){
+		return $http.get(urlBase + "getBookGenres/" + bookId);
 	};
 
 	booksService.getRents = function(username){

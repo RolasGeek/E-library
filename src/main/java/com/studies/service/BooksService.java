@@ -11,11 +11,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
-import com.studies.entity.Rent;
-import com.studies.entity.User;
+import com.studies.entity.*;
 import org.apache.commons.codec.net.QCodec;
 
-import com.studies.entity.Book;
 import com.studies.entityManager.EntityManagerClass;
 
 public class BooksService {
@@ -45,16 +43,35 @@ public class BooksService {
 		}
 	}
 
-	public boolean updateBook(Book book) {
+	public Book updateBook(Book book) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		try {
 			entityManager.getTransaction().begin();
 			entityManager.merge(book);
+			entityManager.flush();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return book;
+		} catch (Exception ex) {
+			entityManager.close();
+			return null;
+		}
+	}
+
+	public boolean deleteBookGenres(Integer bookId){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		try{
+			entityManager.getTransaction().begin();
+			Query q = entityManager.createQuery("delete from Genre g where g.book.id = ?1", Rent.class);
+			q.setParameter(1, bookId);
+			q.executeUpdate();
+			entityManager.flush();
 			entityManager.getTransaction().commit();
 			entityManager.close();
 			return true;
-		} catch (Exception ex) {
-			entityManager.close();
+		} catch (Exception ex){
+			ex.printStackTrace();
 			return false;
 		}
 	}
@@ -107,6 +124,36 @@ public class BooksService {
 		}
 	}
 
+	public boolean buyBook(Book book, User user) {
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		book.setQuantityToSell(book.getQuantityToSell() - 1);
+		if (book.getQuantityToSell() <= 0) {
+			book.setSellable(false);
+		}
+
+		updateBook(book);
+
+		Sold sold = new Sold();
+		sold.setBook(book);
+		sold.setUser(user);
+		sold.setPrice(book.getPrice());
+		sold.setDateSold(Calendar.getInstance().getTime());
+
+		try {
+			entityManager.getTransaction().begin();
+			entityManager.merge(sold);
+			entityManager.flush();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			entityManager.close();
+			return false;
+		}
+	}
+
 	public boolean exists(Integer bookId) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 		return entityManager.find(Book.class, bookId) != null;
@@ -141,6 +188,18 @@ public class BooksService {
 		return rents;
 	}
 
+	public List<Sold> getSolds(Integer bookId){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+
+		entityManager.getTransaction().begin();
+		Query q = entityManager.createQuery("select s from Sold s where s.book.id = ?1", Sold.class);
+		q.setParameter(1, bookId);
+		List<Sold> solds =  q.getResultList();
+		entityManager.getTransaction().commit();
+		entityManager.close();
+		return solds;
+	}
+
 	public List<Rent> getRents(String username){
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -157,7 +216,7 @@ public class BooksService {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 
 		entityManager.getTransaction().begin();
-		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1 and r.book.id = ?2", Rent.class);
+		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1 and r.book.id = ?2 and r.returned = false", Rent.class);
 		q.setParameter(1, username);
 		q.setParameter(2, bookId);
 		List<Rent> rents =  q.getResultList();
@@ -217,7 +276,6 @@ public class BooksService {
 		} catch (Exception e) {
 			entityManager.close();
 			return null;
-			// TODO: handle exception
 		}
 	}
 

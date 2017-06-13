@@ -17,6 +17,10 @@ app.controller('openBookController', ['$scope','$state' ,'$rootScope', '$cookieS
 
     $scope.rentBook = function(){
         $state.go('rentBook', {bookId : $scope.book.id});
-    }
+    };
+
+    $scope.buyBook = function(){
+        $state.go('buyBook', {bookId: $scope.book.id});
+    };
 
 }]);

@@ -1,0 +1,24 @@
+<h1 class="media-heading" style="color: red;" ng-show="!bookExists">Book doesn't exist!</h1>
+<div class="container" ng-show="bookExists">
+    <div class="row">
+        <h1 class="media-heading">Buy this book:</h1>
+        <br>
+        <div class="col-md-12">
+            <div class="media-body">
+                <h4 class="media-heading">Author: {{book.author}}</h4>
+                <h4 class="media-heading">Name: {{book.name}}</h4>
+                <br>
+            </div>
+        </div>
+        <br>
+        <li><label for="buyBook">Buy book</label>
+            <div id="buyBook">
+                <h4 class="media-heading">Email address: {{email}}</h4>
+                <h4 class="media-heading">Book price: {{book.price}}€</h4>
+                <button class="btn btn-gradient-blue" ng-click="buyBook()">Buy</button>
+                <div ng-class="alertclass" role="alert" style="color: cyan;">
+                    {{alertMessage}}</div>
+            </div>
+        </li>
+    </div>
+</div>
