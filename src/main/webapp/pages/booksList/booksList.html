@@ -35,7 +35,7 @@
               
             </div>
             <br>
-            <button class="btn btn-gradient-blue" ng-click="removeBook(book.id)">Remove</button>
+            <button class="btn btn-gradient-blue"  ng-disabled="profile.userLevel != 1" ng-click="removeBook(book.id)">Remove</button>
         </div>
     </div>
 </div>

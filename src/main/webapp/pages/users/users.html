@@ -6,7 +6,7 @@
 		<ul>
 			<div ng-repeat="user in users">
 				<br>
-				<li><label>Username: {{user.username}}</label>
+				<li	 ><label>Username: {{user.username}}</label>
 					<p align="left">
 						<br>Email: {{user.email}}
 					</p>
@@ -14,12 +14,12 @@
 						<p align="left">
 						Type:
 					</p>
-						<select ng-model="user.userLevel" class="form-control"
+						<select ng-disabled="profile.userLevel != 2"  ng-model="user.userLevel" class="form-control"
 							name="type"
 							ng-options="level.level as level.type for level in levels">
 						</select>
 					</div>
-					<button class="btn btn-gradient-blue" ng-click="updateUser(user)">Change</button>
+					<button ng-disabled="profile.userLevel != 2" class="btn btn-gradient-blue" ng-click="updateUser(user)">Change</button>
 					</li>
 					<br>
 			</div>

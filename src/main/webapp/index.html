@@ -38,8 +38,9 @@
 
 </head>
 <body ng-app="myApp" >
+ <div style="width: 75%; margin: auto; "> <h1>Hello {{ logedIn == true ? profile.username : 'Guest'}}</h1></div>
 <div ng-include="'navBar.html'"></div>
-<div style="width: 85%; margin: auto;" >
+<div  style="width: 85%; margin: auto;" >
 	<ui-view></ui-view>
 </div>
 </body>

@@ -54,12 +54,13 @@ public class BooksRestService {
 		String st = headers.getRequestHeaders().getFirst("Authorization");
 		Book book = BooksLogic.getInstance().makeBook(json);
 		//BooksService.getInstance().updateBook(book);
-		BooksService.getInstance().deleteBookGenres(book.getId());
-		book.setRents(BooksService.getInstance().getRents(book.getId()));
-		book.setSolds(BooksService.getInstance().getSolds(book.getId()));
-		book = BooksService.getInstance().updateBook(book);
+		
 		List<GenrePK> gnr = BooksLogic.getInstance().makeGenres(genres);
 		if (book.getId() != 0) {
+			BooksService.getInstance().deleteBookGenres(book.getId());
+			book.setRents(BooksService.getInstance().getRents(book.getId()));
+			book.setSolds(BooksService.getInstance().getSolds(book.getId()));
+			book = BooksService.getInstance().updateBook(book);
 			// Update files
 			List<Genre> genre = new ArrayList<>();
 			for(GenrePK genrePK : gnr){

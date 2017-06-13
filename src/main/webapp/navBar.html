@@ -1,6 +1,8 @@
 <div class="container">
   <!-- Navigation -->
   <div class="row">
+  <div>
+  </div>
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -17,18 +19,10 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
           <ul class="nav navbar-nav js-nav-add-active-class">
             <li><a ui-sref="home">Home</a></li>
-            <li><a  ui-sref="insertbook">Insert Book</a></li>
+            <li><a ng-if="logedIn && profile.userLevel == 1" ui-sref="insertbook">Insert Book</a></li>
             <li><a ui-sref="profile">Profile</a></li>
             <li><a ui-sref="editProfile">UserProfile</a></li>
-             <li><a ui-sref="users">Users</a></li>
-            <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">Company <b class="caret"></b></a>
-              <ul class="dropdown-menu" role="menu">
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="careers.html">Careers</a></li>
-                <li><a href="press-release.html">Press Release</a></li>
-              </ul>
-            </li>
+             <li><a ng-if="logedIn && (profile.userLevel == 2 || profile.userLevel == 1)" ui-sref="users">Users</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right hidden-xs">
             <a type="button" class="navbar-btn btn btn-gradient-blue" am-latosans="bold" href="https://susteen7.zendesk.com/hc/en-us">Support</a>
