@@ -50,7 +50,22 @@ public class UserService {
 			return false;
 		}
     }
-    
+
+    public boolean deleteUser(String username){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		try {
+			User u = entityManager.find(User.class, username);
+			entityManager.getTransaction().begin();
+			entityManager.remove(u);
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return true;
+		}catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
     public User hasUser(String username) {
     	EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
     	try {

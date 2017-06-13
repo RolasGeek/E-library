@@ -11,7 +11,7 @@ app.controller('usersController', ['$scope', '$state', '$rootScope', '$cookieSto
 			console.log(response);
 			$scope.users = response;
 		})
-	};
+	}
 	
 	$scope.updateUser = function(user) {
 		LoginService.updateUser(user).success(function(response) {
@@ -21,6 +21,17 @@ app.controller('usersController', ['$scope', '$state', '$rootScope', '$cookieSto
 			getUsers();
 		});
 	};
+
+	$scope.goToUser = function(username){
+        $state.go('bookRentList', {username: username});
+	};
+
+	//TODO: netrinti saves
+	$scope.deleteUser = function(username){
+		LoginService.deleteUser(username).success(function(data){
+			getUsers();
+		})
+	}
 	
 
 }]);

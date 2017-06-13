@@ -23,15 +23,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.studies.entity.User;
+import com.studies.entity.*;
 import com.studies.helpers.Mapper;
 import com.studies.service.UserService;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
-import com.studies.entity.Book;
-import com.studies.entity.Genre;
-import com.studies.entity.GenrePK;
 import com.studies.logic.BooksLogic;
 import com.studies.service.BooksService;
 import com.studies.service.MailService;
@@ -54,7 +51,7 @@ public class BooksRestService {
 		String st = headers.getRequestHeaders().getFirst("Authorization");
 		Book book = BooksLogic.getInstance().makeBook(json);
 		//BooksService.getInstance().updateBook(book);
-		
+
 		List<GenrePK> gnr = BooksLogic.getInstance().makeGenres(genres);
 		if (book.getId() != 0) {
 			BooksService.getInstance().deleteBookGenres(book.getId());
@@ -157,6 +154,36 @@ public class BooksRestService {
 		return Mapper.getInstance().objectToJSON(BooksService.getInstance().getRents(username));
 	}
 
+	@GET
+	@Path("setBookReturned/{rentId}")
+	@Produces(MediaType.APPLICATION_XML)
+	public String setBookReturned(@PathParam("rentId") Integer rentId){
+		Rent rent = BooksService.getInstance().getRent(rentId);
+		rent.setReturned(true);
+		rent.setTaken(false);
+		rent.setDueDate(BooksService.getInstance().getCurrentDate());
+		if (BooksService.getInstance().updateRent(rent)){
+			Book book = BooksService.getInstance().getBook(rent.getBook().getId());
+			book.setQuantityToRent(book.getQuantityToRent() + 1);
+			BooksService.getInstance().updateBook(book);
+			return "Book successfully returned to library";
+		}
+		return "Book return failed";
+	}
+
+	@GET
+	@Path("setBookTaken/{rentId}")
+	@Produces(MediaType.APPLICATION_XML)
+	public String setBookTaken(@PathParam("rentId") Integer rentId){
+		Rent rent = BooksService.getInstance().getRent(rentId);
+		rent.setReturned(false);
+		rent.setTaken(true);
+		rent.setDueDate(BooksService.getInstance().getDateAfter(30));
+		if (BooksService.getInstance().updateRent(rent)){
+			return "Book successfully taken from library";
+		}
+		return "Book take failed";
+	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)

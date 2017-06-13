@@ -3,11 +3,7 @@ package com.studies.restService;
 
 import java.io.UnsupportedEncodingException;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -26,7 +22,24 @@ public class UserRestService {
 	public String getUsers() {
 		return Mapper.getInstance().objectToJSON(UserService.getInstance().getAll());
 	}
-	
+
+	@GET
+	@Path("/getUser/{username}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public String getUser(@PathParam("username") String username){
+		return Mapper.getInstance().objectToJSON(UserService.getInstance().getUser(username));
+	}
+
+	@GET
+	@Path("deleteUser/{username}")
+	@Produces(MediaType.APPLICATION_XML)
+	public String deleteUser(@PathParam("username") String username){
+		if(UserService.getInstance().deleteUser(username)){
+			return "User successfully deleted";
+		}
+		return "User delete failed";
+	}
+
 	@POST
 	@Path("/update")
 	@Consumes(MediaType.APPLICATION_JSON)

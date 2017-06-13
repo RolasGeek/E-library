@@ -92,6 +92,21 @@ public class BooksService {
 
 	}
 
+	public boolean updateRent(Rent rent){
+		try{
+			EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+			entityManager.getTransaction().begin();
+			entityManager.merge(rent);
+			entityManager.flush();
+			entityManager.getTransaction().commit();
+			entityManager.close();
+			return true;
+		} catch (Exception ex){
+			ex.printStackTrace();
+			return false;
+		}
+	}
+
 	public boolean rentBook(Book book, User user) {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -176,6 +191,12 @@ public class BooksService {
 		return rents;
 	}
 
+	public Rent getRent(Integer rentId){
+		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
+		Rent rent = entityManager.find(Rent.class, rentId);
+		return rent;
+	}
+
 	public List<Rent> getRents(Integer bookId){
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 
@@ -204,7 +225,7 @@ public class BooksService {
 		EntityManager entityManager = EntityManagerClass.getInstance().getEntityManagerFactory().createEntityManager();
 
 		entityManager.getTransaction().begin();
-		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1", Rent.class);
+		Query q = entityManager.createQuery("select r from Rent r where r.user.username = ?1 and r.returned=false", Rent.class);
 		q.setParameter(1, username);
 		List<Rent> rents =  q.getResultList();
 		entityManager.getTransaction().commit();
@@ -277,6 +298,16 @@ public class BooksService {
 			entityManager.close();
 			return null;
 		}
+	}
+
+	public Date getDateAfter(int days){
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, days);
+		return cal.getTime();
+	}
+
+	public Date getCurrentDate(){
+		return Calendar.getInstance().getTime();
 	}
 
 }
