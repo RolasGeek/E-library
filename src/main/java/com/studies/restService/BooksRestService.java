@@ -105,6 +105,10 @@ public class BooksRestService {
 			return "User has already rented this book!";
 		}
 
+		if (BooksService.getInstance().getRents(username).size() > 3){
+			return "User already has rented more than 3 books, he can't rent more";
+		}
+
 		Book book = BooksService.getInstance().getBook(bookId);
 
 		if (book.getQuantityToRent() <= 0) {
