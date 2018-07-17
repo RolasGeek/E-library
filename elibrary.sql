@@ -39,7 +39,7 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `users`rfdebgghre
 --
 
 INSERT INTO `users` (`username`, `email`, `password`, `token`, `expiratio_date`) VALUES
