@@ -50,7 +50,7 @@ INSERT INTO `users` (`username`, `email`, `password`, `token`, `expiratio_date`)
 --
 -- Indexes for dumped tables
 --
-
+dqwdwqfqwfqwfwq
 --
 -- Indexes for table `users`
 --
